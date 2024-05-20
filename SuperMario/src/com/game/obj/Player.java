@@ -14,6 +14,8 @@ public class Player extends GameObj{
 	
 	private Handler handler;
 	
+	private boolean jumped = false;
+	
 	public Player(float x, float y, int scale, Handler handler)
 	{
 		super(x, y, ObjID.Player, MARIO_W, MARIO_H, scale);
@@ -26,6 +28,7 @@ public class Player extends GameObj{
 		set_x(get_vx()+get_x());
 		set_y(get_vy()+get_y());
 		applyGravity();
+		collision();
 	}
 
 	@Override
@@ -35,6 +38,31 @@ public class Player extends GameObj{
 		gf.fillRect((int)get_x(),(int)get_y(),(int)MARIO_W,(int)MARIO_H);
 		showBounds(gf);
 		
+	}
+	
+	public void collision() {
+		for (int i=0;i<handler.getObj().size();i++) {
+			GameObj temp = handler.getObj().get(i);
+			
+			if (temp.get_ID() == ObjID.Block || temp.get_ID() == ObjID.Pipe) {
+				
+				if (getBounds().intersects(temp.getBounds())) {
+					set_y( temp.get_y()- get_height());
+					set_vy(0);
+					setJumped(false);
+				}
+				if (getBoundsTop().intersects(temp.getBounds())) {
+					set_y( temp.get_y()+ get_height());
+					set_vy(0);
+				}
+				if (getBoundsRight().intersects(temp.getBounds())) {
+					set_x( temp.get_x()- get_width());
+				}
+				if (getBoundsLeft().intersects(temp.getBounds())) {
+					set_x( temp.get_x()+ get_width());
+				}
+			}
+		}
 	}
 
 	@Override
@@ -79,5 +107,13 @@ public class Player extends GameObj{
 		g2d.draw(getBoundsLeft());
 		g2d.draw(getBoundsRight());
 		g2d.draw(getBoundsTop());
+	}
+	
+	public boolean hasJumped() {
+		return jumped;
+	}
+	
+	public void setJumped(boolean hasJumped) {
+		jumped = hasJumped;
 	}
 }

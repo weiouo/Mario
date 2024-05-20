@@ -6,8 +6,11 @@ import java.awt.Graphics;
 import java.awt.image.BufferStrategy;
 
 import com.game.graph.Window;
+import com.game.obj.Block;
+import com.game.obj.Pipe;
 import com.game.obj.Player;
 import com.game.obj.util.Handler;
+import com.game.obj.util.KeyInput;
 
 public class Game extends Canvas implements Runnable {
 	
@@ -39,9 +42,16 @@ public class Game extends Canvas implements Runnable {
 	private void init()
 	{
 		handler = new Handler();
+		this.addKeyListener(new KeyInput(handler));
 		
 		//temporary code - there is a yellow box falling down
-		handler.setPlayer(new Player(50,50,1,handler));
+		handler.setPlayer(new Player(32,32,1,handler));
+		for (int i=0;i<20;i++) {
+			handler.addObj(new Block(i*32,320,32,32,1));
+		}
+		for (int i=0;i<30;i++) {
+			handler.addObj(new Pipe(i*32,32*15,32,32,1,false));
+		}
 		
 		new Window(WIN_W, WIN_H, GAME_NAME, this);
 		start();
