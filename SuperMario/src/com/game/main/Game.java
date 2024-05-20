@@ -6,6 +6,7 @@ import java.awt.Graphics;
 import java.awt.image.BufferStrategy;
 
 import com.game.graph.Window;
+import com.game.obj.Player;
 import com.game.obj.util.Handler;
 
 public class Game extends Canvas implements Runnable {
@@ -38,6 +39,10 @@ public class Game extends Canvas implements Runnable {
 	private void init()
 	{
 		handler = new Handler();
+		
+		//temporary code - there is a yellow box falling down
+		handler.setPlayer(new Player(50,50,1,handler));
+		
 		new Window(WIN_W, WIN_H, GAME_NAME, this);
 		start();
 	}
@@ -115,7 +120,7 @@ public class Game extends Canvas implements Runnable {
 		
 		//draw bkground, bricks, pipes......
 		Graphics gf = buf.getDrawGraphics();
-		gf.setColor(Color.BLUE);
+		gf.setColor(Color.BLACK);
 		gf.fillRect(0, 0, WIN_W, WIN_H);
 		
 		handler.render(gf);

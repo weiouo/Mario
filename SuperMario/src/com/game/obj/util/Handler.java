@@ -45,7 +45,7 @@ public class Handler {
 	//set player - return 0 or 1 to check if player is set
 	public int setPlayer(Player player)
 	{
-		if(this.player == null)
+		if(this.player != null)
 		{
 			return -1;
 		}
@@ -65,5 +65,8 @@ public class Handler {
 		return 0;
 	}
 	
+	public Player getPlayer() {
+		return player;
+	}
 	
 }

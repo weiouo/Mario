@@ -1,6 +1,8 @@
 package com.game.obj;
 
+import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Rectangle;
 
 import com.game.obj.util.Handler;
@@ -29,14 +31,53 @@ public class Player extends GameObj{
 	@Override
 	public void render(Graphics gf)//for presenting  graph
 	{
-		
+		gf.setColor(Color.yellow);
+		gf.fillRect((int)get_x(),(int)get_y(),(int)MARIO_W,(int)MARIO_H);
+		showBounds(gf);
 		
 	}
 
 	@Override
 	public Rectangle getBounds() 
 	{
+		return new Rectangle((int) (get_x()+get_width()/4),
+				(int) (get_y()+get_height()/2),
+				(int) get_width()/2,
+				(int) get_height()/2);
+	}
+	
+	public Rectangle getBoundsTop() 
+	{
+		return new Rectangle((int) (get_x()+get_width()/4),
+				(int) get_y(),
+				(int) get_width()/2,
+				(int) get_height()/2);
+	}
+	
+	public Rectangle getBoundsRight() 
+	{
+		return new Rectangle((int) (get_x()+get_width()-5),
+				(int) (get_y()+5),
+				5,
+				(int) (get_height()-10));
+	}
+	
+	public Rectangle getBoundsLeft() 
+	{
+		return new Rectangle((int) get_x(),
+				(int) (get_y()+5),
+				5,
+				(int) (get_height()-10));
+	}
+	
+	private void showBounds(Graphics g) 
+	{
+		Graphics2D g2d = (Graphics2D)g;
 		
-		return null;
+		g.setColor(Color.red);
+		g2d.draw(getBounds());
+		g2d.draw(getBoundsLeft());
+		g2d.draw(getBoundsRight());
+		g2d.draw(getBoundsTop());
 	}
 }

@@ -93,7 +93,7 @@ public abstract class GameObj //abstract class can define both abstract & concre
 	{
 		return width;
 	}
-	public float set_height()
+	public float get_height()
 	{
 		return height;
 	}
