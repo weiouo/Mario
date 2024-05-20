@@ -3,6 +3,7 @@ package com.game.obj;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 
+import com.game.obj.util.Handler;
 import com.game.obj.util.ObjID;
 
 public abstract class GameObj //abstract class can define both abstract & concrete method
@@ -15,8 +16,9 @@ public abstract class GameObj //abstract class can define both abstract & concre
 	private float v_x, v_y;//velocity - x
 	private float width, height;
 	private int scale;
+	public Handler handler;
 	
-	public GameObj(float x, float y, ObjID id, float width, float height, int scale)
+	public GameObj(float x, float y, ObjID id, float width, float height, int scale,Handler handler)
 	{
 		this.scale = scale;
 		this.x = x*scale;
@@ -24,6 +26,7 @@ public abstract class GameObj //abstract class can define both abstract & concre
 		this.id = id;
 		this.width = width*scale;
 		this.height = height*scale;
+		this.handler = handler;
 	}
 	public abstract void tick();
 	public abstract void render(Graphics gf);
@@ -96,6 +99,10 @@ public abstract class GameObj //abstract class can define both abstract & concre
 	public float get_height()
 	{
 		return height;
+	}
+	
+	public void die() {
+		handler.removeObj(this);
 	}
 	
 }

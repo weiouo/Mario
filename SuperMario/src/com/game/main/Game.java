@@ -7,6 +7,7 @@ import java.awt.image.BufferStrategy;
 
 import com.game.graph.Window;
 import com.game.obj.Block;
+import com.game.obj.Goomba;
 import com.game.obj.Pipe;
 import com.game.obj.Player;
 import com.game.obj.util.Handler;
@@ -44,13 +45,16 @@ public class Game extends Canvas implements Runnable {
 		handler = new Handler();
 		this.addKeyListener(new KeyInput(handler));
 		
-		//temporary code - there is a yellow box falling down
+		//temporary code - yellow for player / blue for enemy
 		handler.setPlayer(new Player(32,32,1,handler));
+		handler.addGoomba(new Goomba(32*20,32*14,1,handler));
 		for (int i=0;i<20;i++) {
-			handler.addObj(new Block(i*32,320,32,32,1));
+			handler.addObj(new Block(i*32,320,32,32,1,handler));
 		}
+		handler.addObj(new Block(32*16,32*14,32,32,1,handler));
+		handler.addObj(new Block(32*26,32*14,32,32,1,handler));
 		for (int i=0;i<30;i++) {
-			handler.addObj(new Pipe(i*32,32*15,32,32,1,false));
+			handler.addObj(new Pipe(i*32,32*15,32,32,1,false,handler));
 		}
 		
 		new Window(WIN_W, WIN_H, GAME_NAME, this);

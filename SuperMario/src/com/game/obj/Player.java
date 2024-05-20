@@ -11,20 +11,20 @@ import com.game.obj.util.ObjID;
 public class Player extends GameObj{
 	private static final float MARIO_W = 50;
 	private static final float MARIO_H = 50;
-	
-	private Handler handler;
+	private static int lives = 5;
 	
 	private boolean jumped = false;
 	
 	public Player(float x, float y, int scale, Handler handler)
 	{
-		super(x, y, ObjID.Player, MARIO_W, MARIO_H, scale);
-		this.handler = handler;
+		super(x, y, ObjID.Player, MARIO_W, MARIO_H, scale,handler);
 	}
 
 	@Override
 	public void tick() 
 	{
+		if (lives == 0) {
+		}
 		set_x(get_vx()+get_x());
 		set_y(get_vy()+get_y());
 		applyGravity();
@@ -62,6 +62,15 @@ public class Player extends GameObj{
 					set_x( temp.get_x()+ get_width());
 				}
 			}
+		}
+		for (int i=0;i<handler.getGoomba().size();i++) {
+			Goomba goomba = handler.getGoomba().get(i);
+				if (getBounds().intersects(goomba.getBoundsTop())) {
+					goomba.die();
+				} 
+				else {
+					lives-=1;
+				}
 		}
 	}
 

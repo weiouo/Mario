@@ -4,13 +4,14 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 
+import com.game.obj.util.Handler;
 import com.game.obj.util.ObjID;
 
 public class Pipe extends GameObj{
 	private boolean enterable;
 	
-	public Pipe(int x, int y, int width, int height, int scale, boolean enterable) {
-		super(x, y, ObjID.Pipe, width, height, scale);
+	public Pipe(int x, int y, int width, int height, int scale, boolean enterable,Handler handler) {
+		super(x, y, ObjID.Pipe, width, height, scale,handler);
 		this.enterable = enterable;
 	}
 
