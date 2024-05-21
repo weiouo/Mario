@@ -149,8 +149,10 @@ public class Game extends Canvas implements Runnable {
 	}
 	private void tick()
 	{
-		if(playing)handler.tick();
-		cam.tick(handler.getPlayer());
+		if(playing) {
+			handler.tick();
+			cam.tick(handler.getPlayer());
+		}
 	}
 	private void render()
 	{
@@ -167,9 +169,11 @@ public class Game extends Canvas implements Runnable {
 		gf.fillRect(0, 0, WIN_W, WIN_H);
 		Graphics2D g2d = (Graphics2D) gf;
 
-		g2d.translate(cam.getX(), cam.getY());
-		if(playing)handler.render(gf);
+		if(playing) {
+			g2d.translate(cam.getX(), cam.getY());
+			handler.render(gf);
 		        g2d.translate(-cam.getX(), -cam.getY());
+		}
 		else if (!playing)launcher.render(gf);
 		
 		gf.dispose();
