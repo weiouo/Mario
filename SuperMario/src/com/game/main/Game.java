@@ -28,8 +28,11 @@ public class Game extends Canvas implements Runnable {
 	private static final String GAME_NAME = "Super Mario Game";
 	private static final int WIN_H = 700;
 	private static final int WIN_W = 1000;
-	//Game Variables
+	private static final int SCREEN_WIDTH = WIN_W - 67;
+	private static final int SCREEN_HEIGHT = WIN_H;
+	private static final int SCREEN_OFFSET = 16*3; 
 	
+	//Game Variables
 	private boolean running;
 	private static boolean playing;
 	private static boolean gameOver;
@@ -37,6 +40,7 @@ public class Game extends Canvas implements Runnable {
 	//Game Components
 	private Thread thread;
 	private Handler handler;
+	private Camera cam;
 	private Launcher launcher;
 	private MouseInput mouseInput;
 	
@@ -70,6 +74,15 @@ public class Game extends Canvas implements Runnable {
 		for (int i=0;i<30;i++) {
 			handler.addObj(new Pipe(i*32,32*15,32,32,1,false,handler));
 		}
+
+		for (int i = 0; i < 20; i++) {
+			handler.addObj(new Block(i*32, 32*10, 32, 32, 1, handler));
+		}
+		for (int i = 0; i < 30; i++) {
+			handler.addObj(new Block(i*32, 32*15, 32, 32, 1, handler));
+		}
+		
+		cam = new Camera(0, SCREEN_OFFSET);
 		
 		new Window(WIN_W, WIN_H, GAME_NAME, this);
 		start();
@@ -137,12 +150,13 @@ public class Game extends Canvas implements Runnable {
 	private void tick()
 	{
 		if(playing)handler.tick();
+		cam.tick(handler.getPlayer());
 	}
 	private void render()
 	{
 		BufferStrategy buf = this.getBufferStrategy();
 		if(buf == null)
-		{
+		{	
 			this.createBufferStrategy(5); // use buffer to generate 3 frames
 			return;
 		}
@@ -151,8 +165,11 @@ public class Game extends Canvas implements Runnable {
 		Graphics gf = buf.getDrawGraphics();
 		gf.setColor(Color.BLACK);
 		gf.fillRect(0, 0, WIN_W, WIN_H);
-		
+		Graphics2D g2d = (Graphics2D) gf;
+
+		g2d.translate(cam.getX(), cam.getY());
 		if(playing)handler.render(gf);
+		        g2d.translate(-cam.getX(), -cam.getY());
 		else if (!playing)launcher.render(gf);
 		
 		gf.dispose();
@@ -174,6 +191,13 @@ public class Game extends Canvas implements Runnable {
 	}
 	public static void setGameOver(boolean setGameOver) {
 		gameOver = setGameOver;
+	}
+
+	public static int getScreenHeight() {
+		return SCREEN_HEIGHT;
+	}
+	public static int getScreenWidth() {
+		return SCREEN_WIDTH;
 	}
 	
 	//main function
