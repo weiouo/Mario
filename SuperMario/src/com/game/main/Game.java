@@ -6,12 +6,14 @@ import java.awt.Graphics;
 import java.awt.image.BufferStrategy;
 
 import com.game.graph.Window;
+import com.game.graph.gui.Launcher;
 import com.game.obj.Block;
 import com.game.obj.Goomba;
 import com.game.obj.Pipe;
 import com.game.obj.Player;
 import com.game.obj.util.Handler;
 import com.game.obj.util.KeyInput;
+import com.game.obj.util.MouseInput;
 
 public class Game extends Canvas implements Runnable {
 	
@@ -28,10 +30,14 @@ public class Game extends Canvas implements Runnable {
 	//Game Variables
 	
 	private boolean running;
+	private boolean playing;
+	private boolean gameOver;
 	
 	//Game Components
 	private Thread thread;
 	private Handler handler;
+	private Launcher launcher;
+	private MouseInput mouseInput;
 	
 	
 	public Game()
@@ -43,7 +49,11 @@ public class Game extends Canvas implements Runnable {
 	private void init()
 	{
 		handler = new Handler();
+		launcher = new Launcher(this);
+		mouseInput = new MouseInput(launcher);
 		this.addKeyListener(new KeyInput(handler));
+		this.addMouseListener(mouseInput);
+		this.addMouseMotionListener(mouseInput);
 		
 		//temporary code - yellow for player / blue for enemy
 		handler.setPlayer(new Player(32,32,1,handler));
@@ -66,6 +76,7 @@ public class Game extends Canvas implements Runnable {
 		thread = new Thread(this);
 		thread.start();
 		running = true;
+		playing = false;
 		
 	}
 	
@@ -121,7 +132,7 @@ public class Game extends Canvas implements Runnable {
 	}
 	private void tick()
 	{
-		handler.tick();
+		if(playing)handler.tick();
 	}
 	private void render()
 	{
@@ -137,7 +148,8 @@ public class Game extends Canvas implements Runnable {
 		gf.setColor(Color.BLACK);
 		gf.fillRect(0, 0, WIN_W, WIN_H);
 		
-		handler.render(gf);
+		if(playing)handler.render(gf);
+		else if (!playing)launcher.render(gf);
 		
 		gf.dispose();
 		buf.show();
@@ -151,6 +163,10 @@ public class Game extends Canvas implements Runnable {
 	public static int getWindow_H()
 	{
 		return WIN_H;
+	}
+
+	public void setPlaying(boolean playing) {
+		this.playing = playing;
 	}
 	
 	//main function
