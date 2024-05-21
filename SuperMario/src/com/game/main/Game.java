@@ -8,6 +8,7 @@ import java.awt.image.BufferStrategy;
 import com.game.graph.Window;
 import com.game.graph.gui.Launcher;
 import com.game.obj.Block;
+import com.game.obj.Coin;
 import com.game.obj.Goomba;
 import com.game.obj.Pipe;
 import com.game.obj.Player;
@@ -30,8 +31,8 @@ public class Game extends Canvas implements Runnable {
 	//Game Variables
 	
 	private boolean running;
-	private boolean playing;
-	private boolean gameOver;
+	private static boolean playing;
+	private static boolean gameOver;
 	
 	//Game Components
 	private Thread thread;
@@ -49,7 +50,7 @@ public class Game extends Canvas implements Runnable {
 	private void init()
 	{
 		handler = new Handler();
-		launcher = new Launcher(this);
+		launcher = new Launcher();
 		mouseInput = new MouseInput(launcher);
 		this.addKeyListener(new KeyInput(handler));
 		this.addMouseListener(mouseInput);
@@ -58,6 +59,9 @@ public class Game extends Canvas implements Runnable {
 		//temporary code - yellow for player / blue for enemy
 		handler.setPlayer(new Player(32,32,1,handler));
 		handler.addGoomba(new Goomba(32*20,32*14,1,handler));
+		for (int i=0;i<20;i++) {
+			handler.addCoin(new Coin(32*(10+i),32,30,30,1,handler));
+		}
 		for (int i=0;i<20;i++) {
 			handler.addObj(new Block(i*32,320,32,32,1,handler));
 		}
@@ -165,8 +169,11 @@ public class Game extends Canvas implements Runnable {
 		return WIN_H;
 	}
 
-	public void setPlaying(boolean playing) {
-		this.playing = playing;
+	public static void setPlaying(boolean setPlaying) {
+		playing = setPlaying;
+	}
+	public static void setGameOver(boolean setGameOver) {
+		gameOver = setGameOver;
 	}
 	
 	//main function

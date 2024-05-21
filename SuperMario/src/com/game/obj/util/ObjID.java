@@ -4,5 +4,6 @@ public enum ObjID {
 	Player,
 	Enemy,
 	Block,
-	Pipe;
+	Pipe,
+	Coin;
 }

@@ -3,6 +3,7 @@ import java.awt.Graphics;
 import java.util.LinkedList;
 import java.util.List;
 
+import com.game.obj.Coin;
 import com.game.obj.GameObj;
 import com.game.obj.Goomba;
 import com.game.obj.Player;
@@ -10,12 +11,14 @@ import com.game.obj.Player;
 public class Handler {
 	private List<GameObj> gameObj;
 	private List<Goomba> goomba;
+	private List<Coin> coin;
 	private Player player;
 	
 	public Handler()
 	{
 		gameObj = new LinkedList<GameObj>();
 		goomba = new LinkedList<Goomba>();
+		coin = new LinkedList<Coin>();
 	}
 	
 	public void tick()
@@ -28,6 +31,11 @@ public class Handler {
 		{
 			goomba.tick();
 		}
+		for(Coin coin : coin)
+		{
+			coin.tick();
+		}
+		
 	}
 	public void render(Graphics g)
 	{
@@ -38,6 +46,10 @@ public class Handler {
 		for(Goomba goomba : goomba)
 		{
 			goomba.render(g);
+		}
+		for(Coin coin : coin)
+		{
+			coin.render(g);
 		}
 	}
 	public void addObj(GameObj obj)
@@ -55,6 +67,10 @@ public class Handler {
 	public List<Goomba> getGoomba()
 	{
 		return goomba;
+	}
+	public List<Coin> getCoin()
+	{
+		return coin;
 	}
 	
 	//set player - return 0 or 1 to check if player is set
@@ -90,6 +106,13 @@ public class Handler {
 	
 	public void removeGoomba(Goomba goomba) {
 		this.goomba.remove(goomba);
+	}
+	public void addCoin(Coin coin) {
+		this.coin.add(coin);
+	}
+	
+	public void removeCoin(Coin coin) {
+		this.coin.remove(coin);
 	}
 	
 }

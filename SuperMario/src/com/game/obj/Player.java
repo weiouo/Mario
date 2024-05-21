@@ -5,6 +5,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 
+import com.game.main.Game;
 import com.game.obj.util.Handler;
 import com.game.obj.util.ObjID;
 
@@ -23,8 +24,7 @@ public class Player extends GameObj{
 	@Override
 	public void tick() 
 	{
-		if (lives == 0) {
-		}
+		if (lives == 0) Game.setGameOver(true);
 		set_x(get_vx()+get_x());
 		set_y(get_vy()+get_y());
 		applyGravity();
@@ -65,12 +65,26 @@ public class Player extends GameObj{
 		}
 		for (int i=0;i<handler.getGoomba().size();i++) {
 			Goomba goomba = handler.getGoomba().get(i);
-				if (getBounds().intersects(goomba.getBoundsTop())) {
-					goomba.die();
-				} 
-				else {
+				if (getBoundsRight().intersects(goomba.getBoundsLeft())){
+					//go back to origin
+					set_x(32);set_y(32);
 					lives-=1;
 				}
+				else if (getBoundsLeft().intersects(goomba.getBoundsRight())){
+					//go back to origin
+					set_x(32);set_y(32);
+					lives-=1;
+				}
+				else if (getBounds().intersects(goomba.getBoundsTop())) {
+					goomba.die();
+				} 
+		}
+		for (int i=0;i<handler.getCoin().size();i++) {
+			Coin coin = handler.getCoin().get(i);
+			if (getBounds().intersects(coin.getBounds())||getBoundsTop().intersects(coin.getBounds())
+					||getBoundsRight().intersects(coin.getBounds())||getBoundsLeft().intersects(coin.getBounds())) {
+				coin.die();
+			} 
 		}
 	}
 

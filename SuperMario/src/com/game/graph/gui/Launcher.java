@@ -7,14 +7,12 @@ import com.game.main.Game;
 
 public class Launcher {
 	
-	private Game game;
 	private Button[] buttons;
 
-	public Launcher(Game game) {
+	public Launcher() {
 		buttons = new Button [2];
-		buttons[0] = new Button(440,200,100,100,"START  GAME",game);
-		buttons[1] = new Button(440,350,100,100,"EXIT  GAME",game);
-		this.game = game;
+		buttons[0] = new Button(440,200,100,100,"START  GAME");
+		buttons[1] = new Button(440,350,100,100,"EXIT  GAME");
 	}
 	
 	public void render(Graphics g) {

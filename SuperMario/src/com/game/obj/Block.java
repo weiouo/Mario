@@ -11,7 +11,7 @@ public class Block extends GameObj{
 
 	
 	public Block (int x, int y, int width, int height, int scale,Handler handler) {
-		super(x, y, ObjID.Block, width, height, scale,handler);
+		super(x, y, ObjID.Block, width, height, scale, handler);
 	}
 
 	@Override

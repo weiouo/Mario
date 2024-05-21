@@ -12,16 +12,13 @@ public class Button {
 	private int width,height;
 	private String label;
 	
-	private Game game;
-	
-	public Button(int x, int y, int width, int height, String label,Game game) {
+	public Button(int x, int y, int width, int height, String label) {
 		super();
 		this.x = x;
 		this.y = y;
 		this.width = width;
 		this.height = height;
 		this.label = label;
-		this.game = game;
 	}
 	
 	public void render(Graphics g) {
@@ -36,7 +33,7 @@ public class Button {
 	
 	public void triggerEvent() {
 		if (getLabel().toLowerCase().contains("start")) {
-			game.setPlaying(true);
+			Game.setPlaying(true);
 		}
 		else if (getLabel().toLowerCase().contains("exit")) {
 			System.exit(0);
