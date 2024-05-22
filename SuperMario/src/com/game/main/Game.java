@@ -2,9 +2,12 @@ package com.game.main;
 
 import java.awt.Canvas;
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.image.BufferStrategy;
 
+import com.game.graph.Camera;
 import com.game.graph.Window;
 import com.game.graph.gui.Launcher;
 import com.game.obj.Block;
@@ -60,26 +63,21 @@ public class Game extends Canvas implements Runnable {
 		this.addMouseListener(mouseInput);
 		this.addMouseMotionListener(mouseInput);
 		
-		//temporary code - yellow for player / blue for enemy
+		//temporary code - yellow for player / blue for enemy / green for coin
 		handler.setPlayer(new Player(32,32,1,handler));
-		handler.addGoomba(new Goomba(32*20,32*14,1,handler));
-		for (int i=0;i<20;i++) {
-			handler.addCoin(new Coin(32*(10+i),32,30,30,1,handler));
-		}
-		for (int i=0;i<20;i++) {
-			handler.addObj(new Block(i*32,320,32,32,1,handler));
+		handler.addGoomba(new Goomba(32*22,32*14,1,handler));
+		handler.addGoomba(new Goomba(640,32*14,1,handler));
+		for (int i=0;i<10;i++) {
+			handler.addCoin(new Coin(32*(15+i),32,30,30,1,handler));
 		}
 		handler.addObj(new Block(32*16,32*14,32,32,1,handler));
 		handler.addObj(new Block(32*26,32*14,32,32,1,handler));
-		for (int i=0;i<30;i++) {
-			handler.addObj(new Pipe(i*32,32*15,32,32,1,false,handler));
-		}
 
 		for (int i = 0; i < 20; i++) {
 			handler.addObj(new Block(i*32, 32*10, 32, 32, 1, handler));
 		}
 		for (int i = 0; i < 30; i++) {
-			handler.addObj(new Block(i*32, 32*15, 32, 32, 1, handler));
+			handler.addObj(new Block(i*32, 32*15, 32, 32, 1,handler));
 		}
 		
 		cam = new Camera(0, SCREEN_OFFSET);
@@ -94,7 +92,7 @@ public class Game extends Canvas implements Runnable {
 		thread.start();
 		running = true;
 		playing = false;
-		
+		gameOver = false;
 	}
 	
 	private synchronized void stop()
@@ -167,12 +165,19 @@ public class Game extends Canvas implements Runnable {
 		Graphics gf = buf.getDrawGraphics();
 		gf.setColor(Color.BLACK);
 		gf.fillRect(0, 0, WIN_W, WIN_H);
+		
+		Graphics ui = buf.getDrawGraphics();
+		ui.setColor(Color.WHITE);
+		ui.setFont(new Font("Century Gothic",Font.PLAIN,20));
+		ui.drawString("Lives: "+handler.getPlayer().getLives(), 32, 50);
+		ui.drawString("Coins: "+handler.getPlayer().getCoins(), 32, 80);
+		
 		Graphics2D g2d = (Graphics2D) gf;
 
 		if(playing) {
 			g2d.translate(cam.getX(), cam.getY());
 			handler.render(gf);
-		        g2d.translate(-cam.getX(), -cam.getY());
+		    g2d.translate(-cam.getX(), -cam.getY());
 		}
 		else if (!playing)launcher.render(gf);
 		

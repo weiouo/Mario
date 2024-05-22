@@ -13,6 +13,7 @@ public class Player extends GameObj{
 	private static final float MARIO_W = 50;
 	private static final float MARIO_H = 50;
 	private static int lives = 5;
+	private static int coins =0;
 	
 	private boolean jumped = false;
 	
@@ -25,6 +26,10 @@ public class Player extends GameObj{
 	public void tick() 
 	{
 		if (lives == 0) Game.setGameOver(true);
+		if (get_y()>700) {
+			set_x(32);set_y(32);
+			lives-=1;
+		}
 		set_x(get_vx()+get_x());
 		set_y(get_vy()+get_y());
 		applyGravity();
@@ -75,6 +80,11 @@ public class Player extends GameObj{
 					set_x(32);set_y(32);
 					lives-=1;
 				}
+				else if (getBoundsTop().intersects(goomba.getBounds())) {
+					//go back to origin
+					set_x(32);set_y(32);
+					lives-=1;
+				}
 				else if (getBounds().intersects(goomba.getBoundsTop())) {
 					goomba.die();
 				} 
@@ -84,6 +94,7 @@ public class Player extends GameObj{
 			if (getBounds().intersects(coin.getBounds())||getBoundsTop().intersects(coin.getBounds())
 					||getBoundsRight().intersects(coin.getBounds())||getBoundsLeft().intersects(coin.getBounds())) {
 				coin.die();
+				coins+=1;
 			} 
 		}
 	}
@@ -138,5 +149,13 @@ public class Player extends GameObj{
 	
 	public void setJumped(boolean hasJumped) {
 		jumped = hasJumped;
+	}
+	
+	public int getLives() {
+		return lives;
+	}
+	
+	public int getCoins() {
+		return coins;
 	}
 }

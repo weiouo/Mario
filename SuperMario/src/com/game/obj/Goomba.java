@@ -20,9 +20,7 @@ public class Goomba extends GameObj{
 
 	@Override
 	public void tick() {
-		if (!hasCollide) {
-		set_vx(2);
-		}
+		if (!hasCollide)set_vx(2);
 		set_x(get_vx()+get_x());
 		set_y(get_vy()+get_y());
 		applyGravity();
@@ -62,10 +60,7 @@ public class Goomba extends GameObj{
 
 	@Override
 	public Rectangle getBounds() {
-		return new Rectangle((int) get_x(),
-				(int) get_y(),
-				(int) get_width(),
-				(int) get_height());
+		return new Rectangle((int) get_x(),(int) get_y(),(int) get_width(),(int) get_height());
 	}
 	
 	public Rectangle getBoundsTop() 
@@ -79,17 +74,17 @@ public class Goomba extends GameObj{
 	public Rectangle getBoundsRight() 
 	{
 		return new Rectangle((int) (get_x()+get_width()-5),
-				(int) (get_y()+5),
+				(int) get_y(),
 				5,
-				(int) (get_height()-10));
+				(int) get_height()-10);
 	}
 	
 	public Rectangle getBoundsLeft() 
 	{
 		return new Rectangle((int) get_x(),
-				(int) (get_y()+5),
+				(int) get_y(),
 				5,
-				(int) (get_height()-10));
+				(int) get_height()-10);
 	}
 
 }
