@@ -4,7 +4,9 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
+import java.awt.image.BufferedImage;
 
+import com.game.graph.Texture;
 import com.game.main.Game;
 import com.game.obj.util.Handler;
 import com.game.obj.util.ObjID;
@@ -14,12 +16,21 @@ public class Player extends GameObj{
 	private static final float MARIO_H = 50;
 	private static int lives = 5;
 	private static int coins =0;
+
+	private Handler handler;
+	private Texture tex;
+	private BufferedImage[] spriteL, spriteS;
 	
 	private boolean jumped = false;
+	private int health = 2;
 	
 	public Player(float x, float y, int scale, Handler handler)
 	{
 		super(x, y, ObjID.Player, MARIO_W, MARIO_H, scale,handler);
+		this.handler = handler;
+		tex = Game.getTexture();
+		spriteL = tex.getMarioL();
+		spriteS = tex.getMarioS();
 	}
 
 	@Override
@@ -39,9 +50,14 @@ public class Player extends GameObj{
 	@Override
 	public void render(Graphics gf)//for presenting  graph
 	{
-		gf.setColor(Color.yellow);
-		gf.fillRect((int)get_x(),(int)get_y(),(int)MARIO_W,(int)MARIO_H);
-		showBounds(gf);
+		//gf.setColor(Color.yellow);
+		//gf.fillRect((int)get_x(),(int)get_y(),(int)MARIO_W,(int)MARIO_H);
+		if (health == 1) {
+			gf.drawImage(spriteS[0], (int) get_x(), (int) get_y(), (int) get_width(), (int) get_height()/2, null);
+		} else if (health == 2) {
+			gf.drawImage(spriteL[0], (int) get_x(), (int) get_y(), (int) get_width(), (int) get_height(), null);
+		}
+		//showBounds(gf);
 		
 	}
 	
