@@ -3,7 +3,10 @@ package com.game.obj;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
+import java.awt.image.BufferedImage;
 
+import com.game.graph.Texture;
+import com.game.main.Game;
 import com.game.obj.util.Handler;
 import com.game.obj.util.ObjID;
 
@@ -11,11 +14,17 @@ public class Goomba extends GameObj{
 	
 	private static final float GOOMBA_W = 32;
 	private static final float GOOMBA_H = 32;
+
+	private Texture tex = Game.getTexture();
+	private int index;
+	private BufferedImage[] sprite;
 	
 	private boolean hasCollide = false;
 	
-	public Goomba (float x, float y, int scale,Handler handler) {
+	public Goomba (float x, float y, int scale,Handler handler, int index) {
 		super(x, y, ObjID.Enemy, GOOMBA_W, GOOMBA_H, scale,handler);
+		this.index = index;
+		sprite = tex.getGoomba();
 	}
 
 	@Override
@@ -33,8 +42,9 @@ public class Goomba extends GameObj{
 	
 	@Override
 	public void render(Graphics gf) {
-		gf.setColor(Color.blue);
-		gf.fillRect((int)get_x(),(int)get_y(),(int)GOOMBA_W,(int)GOOMBA_H);
+		//gf.setColor(Color.blue);
+		//gf.fillRect((int)get_x(),(int)get_y(),(int)GOOMBA_W,(int)GOOMBA_H);
+		gf.drawImage(sprite[index], (int) get_x(), (int) get_y(), (int) get_width(), (int)get_height(), null);
 	}
 	
 	public void collision() {
