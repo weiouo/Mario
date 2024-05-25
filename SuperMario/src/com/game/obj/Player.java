@@ -6,6 +6,7 @@ import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 
+import com.game.graph.Animation;
 import com.game.graph.Texture;
 import com.game.main.Game;
 import com.game.obj.util.Handler;
@@ -13,16 +14,22 @@ import com.game.obj.util.ObjID;
 
 public class Player extends GameObj{
 	private static final float MARIO_W = 16;
-	private static final float MARIO_H = 32;
+	private static final float MARIO_H = 16;
 	private static int lives = 5;
 	private static int coins =0;
 
 	private Handler handler;
 	private Texture tex;
+
+	private PlayerState state;
 	private BufferedImage[] spriteL, spriteS;
+	private Animation playerWalkL, playerWalkS;
+	private BufferedImage[] currSprite;
+	private Animation currAnimation;
 	
 	private boolean jumped = false;
 	private int health = 2;
+	private boolean forward = false;
 	
 	public Player(float x, float y, int scale, Handler handler)
 	{
@@ -31,6 +38,13 @@ public class Player extends GameObj{
 		tex = Game.getTexture();
 		spriteL = tex.getMarioL();
 		spriteS = tex.getMarioS();
+
+		playerWalkL = new Animation(5, spriteL[1], spriteL[2], spriteL[3]);
+		playerWalkS = new Animation(5, spriteS[1], spriteS[2], spriteS[3]);
+		
+		state = PlayerState.small;
+		currSprite = spriteS;
+		currAnimation = playerWalkS;
 	}
 
 	@Override
@@ -45,6 +59,7 @@ public class Player extends GameObj{
 		set_y(get_vy()+get_y());
 		applyGravity();
 		collision();
+		currAnimation.runAnimation();
 	}
 
 	@Override
@@ -52,13 +67,27 @@ public class Player extends GameObj{
 	{
 		//gf.setColor(Color.yellow);
 		//gf.fillRect((int)get_x(),(int)get_y(),(int)MARIO_W,(int)MARIO_H);
-		if (health == 1) {
+		/*if (health == 1) {
 			gf.drawImage(spriteS[0], (int) get_x(), (int) get_y(), (int) get_width(), (int) get_height()/2, null);
 		} else if (health == 2) {
 			gf.drawImage(spriteL[0], (int) get_x(), (int) get_y(), (int) get_width(), (int) get_height(), null);
-		}
+		}*/
 		//showBounds(gf);
-		
+		if (jumped) {
+			if (forward) {
+				gf.drawImage(currSprite[5], (int) get_x(), (int) get_y(), (int) get_width(), (int) get_height(), null);
+			} else {
+				gf.drawImage(currSprite[5], (int) (get_x() + get_width()), (int) get_y(), (int) -get_width(), (int) get_height(), null);
+			}
+		} else if (get_vx() > 0) {
+			currAnimation.drawAnimation(gf, (int) get_x(), (int) get_y(), (int) get_width(), (int) get_height());
+			forward = true;
+		} else if (get_vx() < 0) {
+			currAnimation.drawAnimation(gf, (int) (get_x() + get_width()), (int) get_y(), (int) -get_width(), (int) get_height());
+			forward = false;
+		} else {
+			gf.drawImage(currSprite[0], (int) get_x(), (int) get_y(), (int) get_width(), (int) get_height(), null);
+		}
 	}
 	
 	public void collision() {
