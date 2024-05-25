@@ -71,21 +71,11 @@ public class Game extends Canvas implements Runnable {
 		levelHandler.start();
 		
 		//temporary code - yellow for player / blue for enemy / green for coin
-		//handler.setPlayer(new Player(32,32,1,handler));
-		handler.addGoomba(new Goomba(32*22,32*14,1,handler));
-		handler.addGoomba(new Goomba(640,32*14,1,handler));
+		handler.addGoomba(new Goomba(32*22,32*14,1,handler,1));
+		handler.addGoomba(new Goomba(640,32*14,1,handler,1));
 		for (int i=0;i<10;i++) {
 			handler.addCoin(new Coin(32*(15+i),32,30,30,1,handler));
 		}
-		//handler.addObj(new Block(32*16,32*14,32,32,1,handler, 1));
-		//handler.addObj(new Block(32*26,32*14,32,32,1,handler, 1));
-
-		//for (int i = 0; i < 20; i++) {
-		//	handler.addObj(new Block(i*32, 32*10, 32, 32, 1, handler, 1));
-		//}
-		//for (int i = 0; i < 30; i++) {
-		//	handler.addObj(new Block(i*32, 32*15, 32, 32, 1,handler, 1));
-		//}
 		
 		cam = new Camera(0, SCREEN_OFFSET);
 		
