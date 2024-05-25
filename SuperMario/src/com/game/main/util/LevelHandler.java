@@ -42,8 +42,12 @@ public class LevelHandler {
 				if (red == 255 && green ==255 && blue == 255) {
 					continue;
 				}
-				if (red == green && red == blue) {
+				if (red == 100 && green == 100 && blue == 100) { //地面磚塊
 					handler.addObj(new Block(i*16, j*16, 16, 16, 3, handler, 0));
+				} else if (red == 127 && green == 127 && blue == 127) { //一般磚塊
+					handler.addObj(new Block(i*16, j*16, 16, 16, 3, handler, 1));
+				} else if (red == 195 && green == 195 && blue == 195) { //階梯磚塊
+					handler.addObj(new Block(i*16, j*16, 16, 16, 3, handler, 28));
 				} else if (blue == 0 && green == 0 && red == 5) {
 					handler.addObj(new Pipe(i*16, j*16, 32, 16, 3, false, handler, 0));
 				} else if (blue == 0 && green == 0 && red == 10) {
