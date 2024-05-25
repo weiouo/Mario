@@ -31,9 +31,8 @@ public class Pipe extends GameObj{
 	@Override
 	public void render(Graphics gf) {	
 		//temporary code
-		gf.setColor(Color.RED);
-		gf.drawRect((int) get_x(), (int) get_y(), (int) get_width(), (int)get_height());
-
+		//gf.setColor(Color.RED);
+		//gf.drawRect((int) get_x(), (int) get_y(), (int) get_width(), (int)get_height());
 		gf.drawImage(sprite[index], (int) get_x(), (int) get_y(), (int) get_width(), (int)get_height(), null);
 	}
 
