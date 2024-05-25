@@ -30,8 +30,8 @@ public class Game extends Canvas implements Runnable {
 	
 	//declare constants for windows
 	private static final String GAME_NAME = "Super Mario Game";
-	private static final int WIN_H = 700;
-	private static final int WIN_W = 1000;
+	private static final int WIN_H = 720;
+	private static final int WIN_W = 960;
 	private static final int SCREEN_WIDTH = WIN_W - 67;
 	private static final int SCREEN_HEIGHT = WIN_H;
 	private static final int SCREEN_OFFSET = 16*3; 
@@ -47,6 +47,8 @@ public class Game extends Canvas implements Runnable {
 	private Camera cam;
 	private Launcher launcher;
 	private MouseInput mouseInput;
+	private static Texture tex;
+	private LevelHandler levelHandler;
 	
 	
 	public Game()
@@ -64,23 +66,25 @@ public class Game extends Canvas implements Runnable {
 		this.addKeyListener(new KeyInput(handler));
 		this.addMouseListener(mouseInput);
 		this.addMouseMotionListener(mouseInput);
+		levelHandler = new LevelHandler(handler);
+		levelHandler.start();
 		
 		//temporary code - yellow for player / blue for enemy / green for coin
-		handler.setPlayer(new Player(32,32,1,handler));
+		//handler.setPlayer(new Player(32,32,1,handler));
 		handler.addGoomba(new Goomba(32*22,32*14,1,handler));
 		handler.addGoomba(new Goomba(640,32*14,1,handler));
 		for (int i=0;i<10;i++) {
 			handler.addCoin(new Coin(32*(15+i),32,30,30,1,handler));
 		}
-		handler.addObj(new Block(32*16,32*14,32,32,1,handler, 1));
-		handler.addObj(new Block(32*26,32*14,32,32,1,handler, 1));
+		//handler.addObj(new Block(32*16,32*14,32,32,1,handler, 1));
+		//handler.addObj(new Block(32*26,32*14,32,32,1,handler, 1));
 
-		for (int i = 0; i < 20; i++) {
-			handler.addObj(new Block(i*32, 32*10, 32, 32, 1, handler, 1));
-		}
-		for (int i = 0; i < 30; i++) {
-			handler.addObj(new Block(i*32, 32*15, 32, 32, 1,handler, 1));
-		}
+		//for (int i = 0; i < 20; i++) {
+		//	handler.addObj(new Block(i*32, 32*10, 32, 32, 1, handler, 1));
+		//}
+		//for (int i = 0; i < 30; i++) {
+		//	handler.addObj(new Block(i*32, 32*15, 32, 32, 1,handler, 1));
+		//}
 		
 		cam = new Camera(0, SCREEN_OFFSET);
 		
