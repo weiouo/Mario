@@ -12,8 +12,8 @@ import com.game.obj.util.Handler;
 import com.game.obj.util.ObjID;
 
 public class Player extends GameObj{
-	private static final float MARIO_W = 50;
-	private static final float MARIO_H = 50;
+	private static final float MARIO_W = 16;
+	private static final float MARIO_H = 32;
 	private static int lives = 5;
 	private static int coins =0;
 
