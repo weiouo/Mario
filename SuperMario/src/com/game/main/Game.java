@@ -31,7 +31,7 @@ public class Game extends Canvas implements Runnable {
 	
 	//declare constants for windows
 	private static final String GAME_NAME = "Super Mario Game";
-	private static final int WIN_H = 720;
+	private static final int WIN_H = 752;
 	private static final int WIN_W = 960;
 	private static final int SCREEN_WIDTH = WIN_W - 67;
 	private static final int SCREEN_HEIGHT = WIN_H;
