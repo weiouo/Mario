@@ -65,14 +65,6 @@ public class Player extends GameObj{
 	@Override
 	public void render(Graphics gf)//for presenting  graph
 	{
-		//gf.setColor(Color.yellow);
-		//gf.fillRect((int)get_x(),(int)get_y(),(int)MARIO_W,(int)MARIO_H);
-		/*if (health == 1) {
-			gf.drawImage(spriteS[0], (int) get_x(), (int) get_y(), (int) get_width(), (int) get_height()/2, null);
-		} else if (health == 2) {
-			gf.drawImage(spriteL[0], (int) get_x(), (int) get_y(), (int) get_width(), (int) get_height(), null);
-		}*/
-		//showBounds(gf);
 		if (jumped) {
 			if (forward) {
 				gf.drawImage(currSprite[5], (int) get_x(), (int) get_y(), (int) get_width(), (int) get_height(), null);
