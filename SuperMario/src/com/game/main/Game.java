@@ -8,6 +8,7 @@ import java.awt.Graphics2D;
 import java.awt.image.BufferStrategy;
 
 import com.game.graph.Camera;
+import com.game.graph.Texture;
 import com.game.graph.Window;
 import com.game.graph.gui.Launcher;
 import com.game.obj.Block;
@@ -56,6 +57,7 @@ public class Game extends Canvas implements Runnable {
 	
 	private void init()
 	{
+		tex = new Texture();
 		handler = new Handler();
 		launcher = new Launcher();
 		mouseInput = new MouseInput(launcher);
@@ -70,14 +72,14 @@ public class Game extends Canvas implements Runnable {
 		for (int i=0;i<10;i++) {
 			handler.addCoin(new Coin(32*(15+i),32,30,30,1,handler));
 		}
-		handler.addObj(new Block(32*16,32*14,32,32,1,handler));
-		handler.addObj(new Block(32*26,32*14,32,32,1,handler));
+		handler.addObj(new Block(32*16,32*14,32,32,1,handler, 1));
+		handler.addObj(new Block(32*26,32*14,32,32,1,handler, 1));
 
 		for (int i = 0; i < 20; i++) {
-			handler.addObj(new Block(i*32, 32*10, 32, 32, 1, handler));
+			handler.addObj(new Block(i*32, 32*10, 32, 32, 1, handler, 1));
 		}
 		for (int i = 0; i < 30; i++) {
-			handler.addObj(new Block(i*32, 32*15, 32, 32, 1,handler));
+			handler.addObj(new Block(i*32, 32*15, 32, 32, 1,handler, 1));
 		}
 		
 		cam = new Camera(0, SCREEN_OFFSET);
@@ -208,12 +210,15 @@ public class Game extends Canvas implements Runnable {
 	public static int getScreenWidth() {
 		return SCREEN_WIDTH;
 	}
+
+	public static Texture getTexture() {
+		return tex;
+	}
 	
 	//main function
 	public static void main(String[] args)
 	{
 		new Game();
 	}
-	
 	
 }
