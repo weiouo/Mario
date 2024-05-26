@@ -42,6 +42,9 @@ public class KeyInput extends KeyAdapter{
 			player.set_vx(8);
 			keyDown[2] = true;
 		}
+		if (key == KeyEvent.VK_ENTER) {
+			Game.setPlaying(true);
+		}
 		if (key == KeyEvent.VK_SPACE && Game.getGameOver()) {
 			Game.reset();
 		}
