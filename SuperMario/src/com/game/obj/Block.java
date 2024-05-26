@@ -29,6 +29,7 @@ public class Block extends GameObj{
 	{
 		if(hit)
 		{
+			Game.play("break_block");
 			debris.tick();
 		}
 	}

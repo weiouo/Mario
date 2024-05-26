@@ -33,6 +33,7 @@ public class Button {
 	
 	public void triggerEvent() {
 		if (getLabel().toLowerCase().contains("start")) {
+			Game.play("bgm");
 			Game.setPlaying(true);
 		}
 		else if (getLabel().toLowerCase().contains("exit")) {

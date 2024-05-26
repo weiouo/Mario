@@ -59,7 +59,7 @@ public class Player extends GameObj{
 			Game.setGameOver(true);
 		}
 		if (get_y()>600) {
-			set_x(32);set_y(32);
+			set_x(32);set_y(400);
 			Game.play("mario_die");
 			lives-=1;
 		}
@@ -125,19 +125,19 @@ public class Player extends GameObj{
 			Goomba goomba = handler.getGoomba().get(i);
 				if (getBoundsRight().intersects(goomba.getBoundsLeft())){
 					//go back to origin
-					set_x(32);set_y(32);
+					set_x(32);set_y(400);
 					Game.play("mario_die");
 					lives-=1;
 				}
 				else if (getBoundsLeft().intersects(goomba.getBoundsRight())){
 					//go back to origin
-					set_x(32);set_y(32);
+					set_x(32);set_y(400);
 					Game.play("mario_die");
 					lives-=1;
 				}
 				else if (getBoundsTop().intersects(goomba.getBounds())) {
 					//go back to origin
-					set_x(32);set_y(32);
+					set_x(32);set_y(400);
 					Game.play("mario_die");
 					lives-=1;
 				}

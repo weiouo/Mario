@@ -56,6 +56,7 @@ public class Game extends Canvas implements Runnable {
 	private LevelHandler levelHandler;
 	
 	//Sound
+	private static Sound name_entry;
 	private static Sound bgm;
 	private static Sound gameover;
 	private static Sound warning;
@@ -63,6 +64,7 @@ public class Game extends Canvas implements Runnable {
 	private static Sound jump;
 	private static Sound kick;
 	private static Sound coin;
+	private static Sound break_block;
 	private static boolean gameoverPlayed;
 	
 	
@@ -93,6 +95,7 @@ public class Game extends Canvas implements Runnable {
 		
 		cam = new Camera(0, SCREEN_OFFSET);
 		
+		name_entry = new Sound("/sound/Super Mario Bros. Deluxe Music _ 13 - Name Entry.wav");
 		bgm = new Sound("/sound/01. Ground Theme.wav");
 		gameover = new Sound("/sound/smb_gameover.wav");
 		warning = new Sound("/sound/smb_warning.wav");
@@ -100,6 +103,7 @@ public class Game extends Canvas implements Runnable {
 		jump = new Sound("/sound/smb_jump-small.wav");
 		kick = new Sound("/sound/smb_kick.wav");
 		coin = new Sound("/sound/smb_coin.wav");
+		break_block = new Sound("/sound/smb_breakblock.wav");
 		
 		new Window(WIN_W, WIN_H, GAME_NAME, this);
 		start();
@@ -122,7 +126,11 @@ public class Game extends Canvas implements Runnable {
 			kick.play();
 		}
 		else if (s=="coin") {
+			coin.stop();
 			coin.play();
+		}
+		else if (s=="break_block") {
+			break_block.play();
 		}
 	}
 	
@@ -138,7 +146,7 @@ public class Game extends Canvas implements Runnable {
 			handler.addCoin(new Coin(32*(15+i),600,30,30,1,handler));
 		}
 		setGameOver(false);
-		gameoverPlayed = true;
+		gameoverPlayed = false;
 	}
 	
 	private synchronized void start()
@@ -149,6 +157,7 @@ public class Game extends Canvas implements Runnable {
 		playing = false;
 		gameOver = false;
 		gameoverPlayed = false;
+		name_entry.play();
 	}
 	
 	private synchronized void stop()
@@ -248,6 +257,7 @@ public class Game extends Canvas implements Runnable {
 		Graphics2D g2d = (Graphics2D) gf;
 
 		if(playing && !gameOver) {
+			name_entry.stop();
 			g2d.translate(cam.getX(), cam.getY());
 			handler.render(gf);
 		    g2d.translate(-cam.getX(), -cam.getY());
