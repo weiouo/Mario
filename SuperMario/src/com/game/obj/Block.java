@@ -15,6 +15,9 @@ public class Block extends GameObj{
 	private int index;
 	private BufferedImage[] sprite;
 	
+	private boolean hit;//block is hit or not
+	private Debris debris;//reference for debris in the block
+	
 	public Block (int x, int y, int width, int height, int scale, Handler handler, int index) {
 		super(x, y, ObjID.Block, width, height, scale, handler);
 		this.index = index;
@@ -22,16 +25,43 @@ public class Block extends GameObj{
 	}
 
 	@Override
-	public void tick() {
+	public void tick() 
+	{
+		if(hit)
+		{
+			debris.tick();
+		}
+	}
+	public boolean shouldRemove()
+	{
+		if(debris.shouldRemove())
+		{
+			return true;
+		}
+		return false;
 	}
 
 	@Override
-	public void render(Graphics gf) {
-		gf.drawImage(sprite[index], (int) get_x(), (int) get_y(), (int) get_width(), (int) get_height(), null);
+	public void render(Graphics g) 
+	{
+		if(!hit) 
+		{
+			g.drawImage(sprite[index], (int) get_x(), (int) get_y(), (int) get_width(), (int) get_height(), null);
+		}
+		else
+		{
+			debris.draw(g);
+		}
 	}
 
 	@Override
 	public Rectangle getBounds() {
 		return new Rectangle((int) get_x(),(int) get_y(),(int) get_width(),(int) get_height());
+	}
+	
+	public void hit()
+	{
+		hit = true;
+		debris = new Debris(get_x(), get_y(), get_width(), get_height(), getScale());
 	}
 }
