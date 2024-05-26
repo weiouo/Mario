@@ -29,6 +29,7 @@ public class KeyInput extends KeyAdapter{
 			if (!player.hasJumped()) {
 				player.set_vy(-15);
 				keyDown[0] = true;
+				Game.play("jump");
 				player.setJumped(true);
 			}
 		}
@@ -43,6 +44,7 @@ public class KeyInput extends KeyAdapter{
 			keyDown[2] = true;
 		}
 		if (key == KeyEvent.VK_ENTER) {
+			Game.play("bgm");
 			Game.setPlaying(true);
 		}
 		if (key == KeyEvent.VK_SPACE && Game.getGameOver()) {

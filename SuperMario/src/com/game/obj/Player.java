@@ -51,10 +51,12 @@ public class Player extends GameObj{
 	public void tick() 
 	{
 		if (lives == 0) {
+			//Game.play("gameover");
 			Game.setGameOver(true);
 		}
-		if (get_y()>700) {
+		if (get_y()>600) {
 			set_x(32);set_y(32);
+			Game.play("mario_die");
 			lives-=1;
 		}
 		set_x(get_vx()+get_x());
@@ -112,26 +114,31 @@ public class Player extends GameObj{
 				if (getBoundsRight().intersects(goomba.getBoundsLeft())){
 					//go back to origin
 					set_x(32);set_y(32);
+					Game.play("mario_die");
 					lives-=1;
 				}
 				else if (getBoundsLeft().intersects(goomba.getBoundsRight())){
 					//go back to origin
 					set_x(32);set_y(32);
+					Game.play("mario_die");
 					lives-=1;
 				}
 				else if (getBoundsTop().intersects(goomba.getBounds())) {
 					//go back to origin
 					set_x(32);set_y(32);
+					Game.play("mario_die");
 					lives-=1;
 				}
 				else if (getBounds().intersects(goomba.getBoundsTop())) {
 					goomba.die();
+					Game.play("kick");
 				} 
 		}
 		for (int i=0;i<handler.getCoin().size();i++) {
 			Coin coin = handler.getCoin().get(i);
 			if (getBounds().intersects(coin.getBounds())||getBoundsTop().intersects(coin.getBounds())
 					||getBoundsRight().intersects(coin.getBounds())||getBoundsLeft().intersects(coin.getBounds())) {
+				Game.play("coin");
 				coin.die();
 				coins+=1;
 			} 

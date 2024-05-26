@@ -21,6 +21,7 @@ import com.game.obj.Player;
 import com.game.obj.util.Handler;
 import com.game.obj.util.KeyInput;
 import com.game.obj.util.MouseInput;
+import com.game.obj.util.Sound;
 
 public class Game extends Canvas implements Runnable {
 	
@@ -54,6 +55,16 @@ public class Game extends Canvas implements Runnable {
 	private static Texture tex;
 	private LevelHandler levelHandler;
 	
+	//Sound
+	private static Sound bgm;
+	private static Sound gameover;
+	private static Sound warning;
+	private static Sound mario_die;
+	private static Sound jump;
+	private static Sound kick;
+	private static Sound coin;
+	private static boolean gameoverPlayed;
+	
 	
 	public Game()
 	{
@@ -82,11 +93,42 @@ public class Game extends Canvas implements Runnable {
 		
 		cam = new Camera(0, SCREEN_OFFSET);
 		
+		bgm = new Sound("/sound/01. Ground Theme.wav");
+		gameover = new Sound("/sound/smb_gameover.wav");
+		warning = new Sound("/sound/smb_warning.wav");
+		mario_die = new Sound("/sound/smb_mariodie.wav");
+		jump = new Sound("/sound/smb_jump-small.wav");
+		kick = new Sound("/sound/smb_kick.wav");
+		coin = new Sound("/sound/smb_coin.wav");
+		
 		new Window(WIN_W, WIN_H, GAME_NAME, this);
 		start();
 	}
 	
+	public static void play(String s) {
+		if (s == "bgm") {
+			bgm.play();
+		}
+		else if (s=="jump") {
+			jump.play();
+		}
+		else if (s=="mario_die") {
+			mario_die.play();
+		}
+		else if (s=="gameover") {
+			gameover.play();
+		}
+		else if (s=="kick") {
+			kick.play();
+		}
+		else if (s=="coin") {
+			coin.play();
+		}
+	}
+	
 	public static void reset() {
+		gameover.stop();
+		bgm.play();
 		//temporary code
 		handler.getPlayer().resetLives();
 		handler.getPlayer().resetCoins();
@@ -96,6 +138,7 @@ public class Game extends Canvas implements Runnable {
 			handler.addCoin(new Coin(32*(15+i),600,30,30,1,handler));
 		}
 		setGameOver(false);
+		gameoverPlayed = true;
 	}
 	
 	private synchronized void start()
@@ -105,6 +148,7 @@ public class Game extends Canvas implements Runnable {
 		running = true;
 		playing = false;
 		gameOver = false;
+		gameoverPlayed = false;
 	}
 	
 	private synchronized void stop()
@@ -186,6 +230,12 @@ public class Game extends Canvas implements Runnable {
 			ui.drawString("Coins: "+handler.getPlayer().getCoins(), 32, 80);
 		}
 		else {
+			bgm.stop();
+			mario_die.stop();
+			if (!gameoverPlayed) {
+				gameover.play();
+				gameoverPlayed = true;
+			}
 			Graphics ui = buf.getDrawGraphics();
 			ui.setColor(Color.LIGHT_GRAY);
 			ui.setFont(new Font("Century Gothic",Font.BOLD,40));
@@ -245,5 +295,6 @@ public class Game extends Canvas implements Runnable {
 	{
 		new Game();
 	}
+
 	
 }
