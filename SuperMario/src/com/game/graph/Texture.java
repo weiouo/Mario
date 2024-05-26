@@ -5,7 +5,7 @@ import java.util.List;
 
 public class Texture {
 	
-	private final String PARENT_FOLDER = "/tile";
+	private final String PARENT_FOLDER = "res/tile";
 	
 	private final int MARIO_L_COUNT = 21;
 	private final int MARIO_S_COUNT = 14;

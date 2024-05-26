@@ -42,8 +42,6 @@ public class Goomba extends GameObj{
 	
 	@Override
 	public void render(Graphics gf) {
-		//gf.setColor(Color.blue);
-		//gf.fillRect((int)get_x(),(int)get_y(),(int)GOOMBA_W,(int)GOOMBA_H);
 		gf.drawImage(sprite[index], (int) get_x(), (int) get_y(), (int) get_width(), (int)get_height(), null);
 	}
 	

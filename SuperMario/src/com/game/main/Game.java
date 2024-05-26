@@ -10,6 +10,7 @@ import java.awt.image.BufferStrategy;
 import com.game.graph.Camera;
 import com.game.graph.Texture;
 import com.game.graph.Window;
+import com.game.graph.gui.Button;
 import com.game.graph.gui.Launcher;
 import com.game.main.util.LevelHandler;
 import com.game.obj.Block;
@@ -37,6 +38,7 @@ public class Game extends Canvas implements Runnable {
 	private static final int SCREEN_HEIGHT = WIN_H;
 	private static final int SCREEN_OFFSET = 16*3; 
 	
+	
 	//Game Variables
 	private boolean running;
 	private static boolean playing;
@@ -44,10 +46,11 @@ public class Game extends Canvas implements Runnable {
 	
 	//Game Components
 	private Thread thread;
-	private Handler handler;
+	private static Handler handler;
 	private Camera cam;
 	private Launcher launcher;
 	private MouseInput mouseInput;
+	private KeyInput keyInput;
 	private static Texture tex;
 	private LevelHandler levelHandler;
 	
@@ -70,17 +73,29 @@ public class Game extends Canvas implements Runnable {
 		levelHandler = new LevelHandler(handler);
 		levelHandler.start();
 		
-		//temporary code - yellow for player / blue for enemy / green for coin
-		handler.addGoomba(new Goomba(32*22,32*14,1,handler,1));
-		handler.addGoomba(new Goomba(640,32*14,1,handler,1));
+		//temporary code
+		handler.addGoomba(new Goomba(32*55,600,1,handler,1));
+		handler.addGoomba(new Goomba(32*50,600,1,handler,1));
 		for (int i=0;i<10;i++) {
-			handler.addCoin(new Coin(32*(15+i),32,30,30,1,handler));
+			handler.addCoin(new Coin(32*(15+i),600,30,30,1,handler));
 		}
 		
 		cam = new Camera(0, SCREEN_OFFSET);
 		
 		new Window(WIN_W, WIN_H, GAME_NAME, this);
 		start();
+	}
+	
+	public static void reset() {
+		//temporary code
+		handler.getPlayer().resetLives();
+		handler.getPlayer().resetCoins();
+		handler.addGoomba(new Goomba(32*55,600,1,handler,1));
+		handler.addGoomba(new Goomba(32*50,600,1,handler,1));
+		for (int i=0;i<10;i++) {
+			handler.addCoin(new Coin(32*(15+i),600,30,30,1,handler));
+		}
+		setGameOver(false);
 	}
 	
 	private synchronized void start()
@@ -163,20 +178,32 @@ public class Game extends Canvas implements Runnable {
 		gf.setColor(Color.BLACK);
 		gf.fillRect(0, 0, WIN_W, WIN_H);
 		
-		Graphics ui = buf.getDrawGraphics();
-		ui.setColor(Color.WHITE);
-		ui.setFont(new Font("Century Gothic",Font.PLAIN,20));
-		ui.drawString("Lives: "+handler.getPlayer().getLives(), 32, 50);
-		ui.drawString("Coins: "+handler.getPlayer().getCoins(), 32, 80);
+		if (!gameOver) {
+			Graphics ui = buf.getDrawGraphics();
+			ui.setColor(Color.WHITE);
+			ui.setFont(new Font("Century Gothic",Font.PLAIN,20));
+			ui.drawString("Lives: "+handler.getPlayer().getLives(), 32, 50);
+			ui.drawString("Coins: "+handler.getPlayer().getCoins(), 32, 80);
+		}
+		else {
+			Graphics ui = buf.getDrawGraphics();
+			ui.setColor(Color.LIGHT_GRAY);
+			ui.setFont(new Font("Century Gothic",Font.BOLD,40));
+			ui.drawString("\\>o</   GAME  OVER   \\>o</", 185, 300);
+			ui.setFont(new Font("Century Gothic",Font.PLAIN,25));
+			ui.drawString(">>  space for restart", 185, 380);
+			handler.reset();
+		}
 		
 		Graphics2D g2d = (Graphics2D) gf;
 
-		if(playing) {
+		if(playing && !gameOver) {
 			g2d.translate(cam.getX(), cam.getY());
 			handler.render(gf);
 		    g2d.translate(-cam.getX(), -cam.getY());
 		}
-		else if (!playing)launcher.render(gf);
+		
+		else if (!playing) launcher.render(gf);
 		
 		gf.dispose();
 		buf.show();
@@ -197,6 +224,9 @@ public class Game extends Canvas implements Runnable {
 	}
 	public static void setGameOver(boolean setGameOver) {
 		gameOver = setGameOver;
+	}
+	public static boolean getGameOver() {
+		return gameOver;
 	}
 
 	public static int getScreenHeight() {

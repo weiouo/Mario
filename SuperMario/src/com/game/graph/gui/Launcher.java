@@ -1,6 +1,7 @@
 package com.game.graph.gui;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 
 import com.game.main.Game;
@@ -22,6 +23,7 @@ public class Launcher {
 		for (int i=0;i<buttons.length;i++) {
 			buttons[i].render(g);
 		}
+		
 	} 
 	public Button[] getButton() {
 		return buttons;

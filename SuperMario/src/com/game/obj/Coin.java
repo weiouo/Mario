@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
+import java.util.Timer;
 
 import com.game.graph.Texture;
 import com.game.main.Game;
@@ -33,8 +34,6 @@ public class Coin extends GameObj {
 
 	@Override
 	public void render(Graphics gf) {
-		//gf.setColor(Color.green);
-		//gf.fillRect((int)get_x(),(int)get_y(),(int)get_width(),(int)get_height());
 		gf.drawImage(coin, (int) get_x(), (int) get_y(), (int) get_width(), (int)get_height(), null);
 	}
 	

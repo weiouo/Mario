@@ -50,7 +50,9 @@ public class Player extends GameObj{
 	@Override
 	public void tick() 
 	{
-		if (lives == 0) Game.setGameOver(true);
+		if (lives == 0) {
+			Game.setGameOver(true);
+		}
 		if (get_y()>700) {
 			set_x(32);set_y(32);
 			lives-=1;
@@ -101,7 +103,7 @@ public class Player extends GameObj{
 					set_x( temp.get_x()- get_width());
 				}
 				if (getBoundsLeft().intersects(temp.getBounds())) {
-					set_x( temp.get_x()+ get_width());
+					set_x( temp.get_x()+ temp.get_width());
 				}
 			}
 		}
@@ -194,5 +196,12 @@ public class Player extends GameObj{
 	
 	public int getCoins() {
 		return coins;
+	}
+	public void resetLives() {
+		lives=5;
+	}
+	
+	public void resetCoins() {
+		coins=0;
 	}
 }

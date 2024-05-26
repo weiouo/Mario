@@ -115,4 +115,9 @@ public class Handler {
 		this.coin.remove(coin);
 	}
 	
+	public void reset() {
+		coin.clear();
+		goomba.clear();
+	}
+	
 }

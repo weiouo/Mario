@@ -27,10 +27,6 @@ public class Block extends GameObj{
 
 	@Override
 	public void render(Graphics gf) {
-		//temporary code
-		//gf.setColor(Color.WHITE);
-		//gf.drawRect((int) get_x(), (int) get_y(), (int) get_width(), (int)get_height());
-
 		gf.drawImage(sprite[index], (int) get_x(), (int) get_y(), (int) get_width(), (int) get_height(), null);
 	}
 

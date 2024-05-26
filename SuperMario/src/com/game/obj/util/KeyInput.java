@@ -3,6 +3,7 @@ package com.game.obj.util;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
+import com.game.main.Game;
 import com.game.obj.Player;
 
 //KeyEvent Listener - KeyPress, KeyRelease
@@ -24,7 +25,7 @@ public class KeyInput extends KeyAdapter{
 		}
 		Player player = handler.getPlayer();
 		//jump
-		if (key == KeyEvent.VK_W) {
+		if (key == KeyEvent.VK_W && !player.hasJumped()) {
 			if (!player.hasJumped()) {
 				player.set_vy(-15);
 				keyDown[0] = true;
@@ -41,6 +42,9 @@ public class KeyInput extends KeyAdapter{
 			player.set_vx(8);
 			keyDown[2] = true;
 		}
+		if (key == KeyEvent.VK_SPACE && Game.getGameOver()) {
+			Game.reset();
+		}
 	}
 	
 	@Override
@@ -50,7 +54,6 @@ public class KeyInput extends KeyAdapter{
 		Player player = handler.getPlayer();
 		if (key == KeyEvent.VK_W) {
 			keyDown[0] = false;
-			player.setJumped(false);
 		}
 		if (key == KeyEvent.VK_A) {
 			keyDown[1] = false;

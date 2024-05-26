@@ -4,13 +4,14 @@ import java.awt.image.BufferedImage;
 
 import com.game.graph.BufferedImageLoader;
 import com.game.obj.Block;
+import com.game.obj.Goomba;
 import com.game.obj.Pipe;
 import com.game.obj.Player;
 import com.game.obj.util.Handler;
 
 public class LevelHandler {
 	
-	private final String PARENT_FOLDER = "/level";
+	private final String PARENT_FOLDER = "res/level";
 	
 	private BufferedImageLoader loader;
 	private BufferedImage levelTiles;
@@ -23,6 +24,9 @@ public class LevelHandler {
 	
 	public void start() {
 		setLevel(PARENT_FOLDER + "/1_1.png");
+		loadCharacters(PARENT_FOLDER + "/1_1c.png");	
+	}
+	public void restart() {
 		loadCharacters(PARENT_FOLDER + "/1_1c.png");	
 	}
 	
