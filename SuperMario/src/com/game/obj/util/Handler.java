@@ -3,6 +3,7 @@ import java.awt.Graphics;
 import java.util.LinkedList;
 import java.util.List;
 
+import com.game.obj.Block;
 import com.game.obj.Coin;
 import com.game.obj.GameObj;
 import com.game.obj.Goomba;
@@ -26,6 +27,12 @@ public class Handler {
 		for(GameObj obj : gameObj)
 		{
 			obj.tick();
+		}
+		//remove blocks
+		LinkedList<Block> removeBlocks = player.getAndResetRemoveBlock();
+		for(Block removeBlock : removeBlocks)
+		{
+			removeObj(removeBlock);
 		}
 		for(Goomba goomba : goomba)
 		{

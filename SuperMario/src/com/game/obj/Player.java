@@ -5,6 +5,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
+import java.util.LinkedList;
 
 import com.game.graph.Animation;
 import com.game.graph.Texture;
@@ -26,6 +27,7 @@ public class Player extends GameObj{
 	private Animation playerWalkL, playerWalkS;
 	private BufferedImage[] currSprite;
 	private Animation currAnimation;
+	private LinkedList<Block> removeBlocks;
 	
 	private boolean jumped = false;
 	private int health = 2;
@@ -36,6 +38,8 @@ public class Player extends GameObj{
 		super(x, y, ObjID.Player, MARIO_W, MARIO_H, scale,handler);
 		this.handler = handler;
 		tex = Game.getTexture();
+		removeBlocks = new LinkedList<Block>();
+		
 		spriteL = tex.getMarioL();
 		spriteS = tex.getMarioS();
 
@@ -87,8 +91,16 @@ public class Player extends GameObj{
 	public void collision() {
 		for (int i=0;i<handler.getObj().size();i++) {
 			GameObj temp = handler.getObj().get(i);
-			
-			if (temp.get_ID() == ObjID.Block || temp.get_ID() == ObjID.Pipe) {
+			if(temp == this) continue;//avoid self collision detection
+			if(removeBlocks.contains(temp)) continue; //not doing collision detection on block should be removed
+			if (temp.get_ID() == ObjID.Block && getBoundsTop().intersects(temp.getBounds())) 
+			{
+				set_y(temp.get_y() + temp.get_height());
+				set_vy(0);
+				((Block)temp).hit();
+				removeBlocks.add((Block)temp);			}
+			else
+			{
 				
 				if (getBounds().intersects(temp.getBounds())) {
 					set_y( temp.get_y()- get_height());
@@ -184,6 +196,25 @@ public class Player extends GameObj{
 	
 	public boolean hasJumped() {
 		return jumped;
+	}
+	
+	public LinkedList<Block> getAndResetRemoveBlock()
+	{
+		LinkedList<Block> output = new LinkedList<Block>();
+		for(Block removeBlock : removeBlocks)
+		{
+			//go over if shouldn't remove
+			if(!removeBlock.shouldRemove()) continue;
+			//add block about to be removed in a list -> output 
+			output.add(removeBlock);
+		}
+		//remove all the blocks in output
+		for(Block removeBlock : output)
+		{
+			removeBlocks.remove(removeBlock);
+		}
+		//send output to handler -> remove objects from handler
+		return output;
 	}
 	
 	public void setJumped(boolean hasJumped) {

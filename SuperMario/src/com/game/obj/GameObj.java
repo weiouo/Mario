@@ -67,7 +67,10 @@ public abstract class GameObj //abstract class can define both abstract & concre
 	{
 		this.height = h;
 	}
-	
+	public void setScale()
+	{
+		this.scale = scale;
+	}
 	//getter - get value
 	
 	public float get_x()
@@ -103,6 +106,11 @@ public abstract class GameObj //abstract class can define both abstract & concre
 	
 	public void die() {
 		handler.removeObj(this);
+	}//tutorial deleted?
+	public int getScale()
+	{
+		return scale;
 	}
+	
 	
 }
