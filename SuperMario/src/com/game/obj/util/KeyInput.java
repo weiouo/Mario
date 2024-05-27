@@ -19,7 +19,10 @@ public class KeyInput extends KeyAdapter{
 	@Override
 	public void keyPressed(KeyEvent e) {
 		int key = e.getKeyCode();
-		
+		if (key == KeyEvent.VK_ENTER) {
+			Game.setPlaying(true);
+			Game.play("bgm");
+		}
 		if (key == KeyEvent.VK_ESCAPE) {
 			System.exit(0);
 		}
@@ -43,10 +46,7 @@ public class KeyInput extends KeyAdapter{
 			player.set_vx(8);
 			keyDown[2] = true;
 		}
-		if (key == KeyEvent.VK_ENTER) {
-			Game.play("bgm");
-			Game.setPlaying(true);
-		}
+		
 		if (key == KeyEvent.VK_SPACE && Game.getGameOver()) {
 			Game.reset();
 		}

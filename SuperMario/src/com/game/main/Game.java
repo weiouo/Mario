@@ -50,7 +50,7 @@ public class Game extends Canvas implements Runnable {
 	private static Handler handler;
 	private Camera cam;
 	private Launcher launcher;
-	private MouseInput mouseInput;
+	//private MouseInput mouseInput;
 	private KeyInput keyInput;
 	private static Texture tex;
 	private LevelHandler levelHandler;
@@ -79,10 +79,13 @@ public class Game extends Canvas implements Runnable {
 		tex = new Texture();
 		handler = new Handler();
 		launcher = new Launcher();
-		mouseInput = new MouseInput(launcher);
-		this.addKeyListener(new KeyInput(handler));
-		this.addMouseListener(mouseInput);
-		this.addMouseMotionListener(mouseInput);
+		keyInput = new KeyInput(handler);
+		this.addKeyListener(keyInput);
+		//mouseInput = new MouseInput(launcher);
+		
+		//this.addKeyListener(new KeyInput(handler));
+		//this.addMouseListener(mouseInput);
+		//this.addMouseMotionListener(mouseInput);
 		levelHandler = new LevelHandler(handler);
 		levelHandler.start();
 		
@@ -106,6 +109,7 @@ public class Game extends Canvas implements Runnable {
 		break_block = new Sound("/sound/smb_breakblock.wav");
 		
 		new Window(WIN_W, WIN_H, GAME_NAME, this);
+		this.requestFocusInWindow();
 		start();
 	}
 	

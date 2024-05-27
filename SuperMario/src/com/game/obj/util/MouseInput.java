@@ -11,8 +11,9 @@ import com.game.main.Game;
 public class MouseInput implements MouseListener,MouseMotionListener{
 
 	private int x,y;
-	private Launcher launcher;
+	//private Launcher launcher;
 	private Button [] buttons;
+	private Launcher launcher;
 	
 	public MouseInput(Launcher launcher) {
 		this.launcher = launcher;
@@ -32,19 +33,20 @@ public class MouseInput implements MouseListener,MouseMotionListener{
 	@Override
 	public void mouseClicked(MouseEvent e) {
 	}
-
+	
 	@Override
+	
 	public void mousePressed(MouseEvent e) {
 		for (int i=0;i<buttons.length;i++) {
 			Button button = buttons[i];
 			
 			//check mouse inside the area of button
 			if (x>=button.getX()&& x<=button.getX()+button.getWidth() && y>=button.getY() && y<=button.getY()+button.getHeight()) {
-				button.triggerEvent();
+				//button.triggerEvent();
 			}
 		}
 	}
-
+	
 	@Override
 	public void mouseReleased(MouseEvent e) {
 	}

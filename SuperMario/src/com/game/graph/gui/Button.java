@@ -34,14 +34,14 @@ public class Button {
 	public void triggerEvent() {
 		if (getLabel().toLowerCase().contains("start")) {
 			Game.play("bgm");
-			Game.setPlaying(true);
+			//Game.setPlaying(true);
 		}
 		else if (getLabel().toLowerCase().contains("exit")) {
 			System.exit(0);
 		}
 		
 	}
-
+	
 	public int getX() {
 		return x;
 	}
