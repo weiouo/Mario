@@ -24,7 +24,6 @@ public class Coin extends GameObj {
 	@Override
 	public void tick() {
 		set_y(get_vy()+get_y());
-		applyGravity();
 		collision();
 	}
 	

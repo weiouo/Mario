@@ -22,6 +22,7 @@ public class KeyInput extends KeyAdapter{
 		if (key == KeyEvent.VK_ENTER) {
 			Game.setPlaying(true);
 			Game.play("bgm");
+			Game.startTimer();
 		}
 		if (key == KeyEvent.VK_ESCAPE) {
 			System.exit(0);
@@ -48,6 +49,7 @@ public class KeyInput extends KeyAdapter{
 		}
 		
 		if (key == KeyEvent.VK_SPACE && Game.getGameOver()) {
+			Game.startTimer();
 			Game.reset();
 		}
 	}

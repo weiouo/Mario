@@ -5,7 +5,11 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.image.BufferStrategy;
+
+import javax.swing.Timer;
 
 import com.game.graph.Camera;
 import com.game.graph.Texture;
@@ -44,12 +48,15 @@ public class Game extends Canvas implements Runnable {
 	private boolean running;
 	private static boolean playing;
 	private static boolean gameOver;
+	private static int gameTime = 60*5;
 	
 	//Game Components
 	private Thread thread;
 	private static Handler handler;
 	private Camera cam;
 	private Launcher launcher;
+	private static Timer timer;
+
 	//private MouseInput mouseInput;
 	private KeyInput keyInput;
 	private static Texture tex;
@@ -59,20 +66,27 @@ public class Game extends Canvas implements Runnable {
 	private static Sound name_entry;
 	private static Sound bgm;
 	private static Sound gameover;
-	private static Sound warning;
+	private static Sound hurry;
 	private static Sound mario_die;
 	private static Sound jump;
 	private static Sound kick;
 	private static Sound coin;
 	private static Sound break_block;
 	private static boolean gameoverPlayed;
+	private static boolean hurryPlayed;
+	private static boolean bgmOverTime;
 	
+	private ActionListener listener = new ActionListener() {
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			gameTime--;	
+		}
+	};
 	
 	public Game()
 	{
 		init();
 	}
-	
 	
 	private void init()
 	{
@@ -80,6 +94,7 @@ public class Game extends Canvas implements Runnable {
 		handler = new Handler();
 		launcher = new Launcher();
 		keyInput = new KeyInput(handler);
+		timer = new Timer(1000, listener);
 		this.addKeyListener(keyInput);
 		//mouseInput = new MouseInput(launcher);
 		
@@ -89,19 +104,12 @@ public class Game extends Canvas implements Runnable {
 		levelHandler = new LevelHandler(handler);
 		levelHandler.start();
 		
-		//temporary code
-		handler.addGoomba(new Goomba(32*55,600,1,handler,1));
-		handler.addGoomba(new Goomba(32*50,600,1,handler,1));
-		for (int i=0;i<10;i++) {
-			handler.addCoin(new Coin(32*(15+i),600,30,30,1,handler));
-		}
-		
 		cam = new Camera(0, SCREEN_OFFSET);
 		
 		name_entry = new Sound("/sound/Super Mario Bros. Deluxe Music _ 13 - Name Entry.wav");
 		bgm = new Sound("/sound/01. Ground Theme.wav");
 		gameover = new Sound("/sound/smb_gameover.wav");
-		warning = new Sound("/sound/smb_warning.wav");
+		hurry = new Sound("/sound/12. Ground Theme (Hurry!).wav");
 		mario_die = new Sound("/sound/smb_mariodie.wav");
 		jump = new Sound("/sound/smb_jump-small.wav");
 		kick = new Sound("/sound/smb_kick.wav");
@@ -111,6 +119,7 @@ public class Game extends Canvas implements Runnable {
 		new Window(WIN_W, WIN_H, GAME_NAME, this);
 		this.requestFocusInWindow();
 		start();
+		set();
 	}
 	
 	public static void play(String s) {
@@ -136,21 +145,32 @@ public class Game extends Canvas implements Runnable {
 		else if (s=="break_block") {
 			break_block.play();
 		}
+		else if (s=="hurry") {
+			hurry.play();
+		}
 	}
 	
-	public static void reset() {
-		gameover.stop();
-		bgm.play();
-		//temporary code
-		handler.getPlayer().resetLives();
-		handler.getPlayer().resetCoins();
+	private static void set() {
 		handler.addGoomba(new Goomba(32*55,600,1,handler,1));
 		handler.addGoomba(new Goomba(32*50,600,1,handler,1));
 		for (int i=0;i<10;i++) {
-			handler.addCoin(new Coin(32*(15+i),600,30,30,1,handler));
+			handler.addCoin(new Coin(32*(15+i),585,30,30,1,handler));
 		}
+	}
+	
+	public static void reset() {
+		gameTime = 60*5;
+		handler.getPlayer().set_x(144);
+		handler.getPlayer().set_y(576);
+		gameover.stop();
+		bgm.play();
+		handler.getPlayer().resetLives();
+		handler.getPlayer().resetCoins();
 		setGameOver(false);
 		gameoverPlayed = false;
+		hurryPlayed = false;
+		bgmOverTime = false;
+		set();
 	}
 	
 	private synchronized void start()
@@ -161,6 +181,8 @@ public class Game extends Canvas implements Runnable {
 		playing = false;
 		gameOver = false;
 		gameoverPlayed = false;
+		hurryPlayed = false;
+		bgmOverTime = false;
 		name_entry.play();
 	}
 	
@@ -236,14 +258,21 @@ public class Game extends Canvas implements Runnable {
 		gf.fillRect(0, 0, WIN_W, WIN_H);
 		
 		if (!gameOver) {
+			/*System.out.println(handler.getPlayer().get_x());
+			System.out.println(handler.getPlayer().get_y());*/
 			Graphics ui = buf.getDrawGraphics();
 			ui.setColor(Color.WHITE);
 			ui.setFont(new Font("Century Gothic",Font.PLAIN,20));
 			ui.drawString("Lives: "+handler.getPlayer().getLives(), 32, 50);
 			ui.drawString("Coins: "+handler.getPlayer().getCoins(), 32, 80);
+			int min = gameTime/60;
+			int sec = gameTime%60;
+			ui.drawString(String.format("%02d : %02d",min,sec),820, 50);
 		}
 		else {
+			timer.stop();
 			bgm.stop();
+			hurry.stop();
 			mario_die.stop();
 			if (!gameoverPlayed) {
 				gameover.play();
@@ -252,7 +281,8 @@ public class Game extends Canvas implements Runnable {
 			Graphics ui = buf.getDrawGraphics();
 			ui.setColor(Color.LIGHT_GRAY);
 			ui.setFont(new Font("Century Gothic",Font.BOLD,40));
-			ui.drawString("\\>o</   GAME  OVER   \\>o</", 185, 300);
+			if (gameTime <=0)ui.drawString("\\>o</    TIME  OUT    \\>o</", 185, 300);
+			else ui.drawString("\\>o</   GAME  OVER   \\>o</", 185, 300);
 			ui.setFont(new Font("Century Gothic",Font.PLAIN,25));
 			ui.drawString(">>  space for restart", 185, 380);
 			handler.reset();
@@ -265,6 +295,18 @@ public class Game extends Canvas implements Runnable {
 			g2d.translate(cam.getX(), cam.getY());
 			handler.render(gf);
 		    g2d.translate(-cam.getX(), -cam.getY());
+		    if (gameTime==116 && !bgmOverTime) {
+		    	bgm.play();
+		    	bgmOverTime = true;
+		    }
+		    if (gameTime<=60 && !hurryPlayed) {
+		    	bgm.stop();
+		    	hurry.play();
+		    	hurryPlayed = true;
+		    }
+		    if (gameTime==0) {
+		    	setGameOver(true);
+		    }
 		}
 		
 		else if (!playing) launcher.render(gf);
@@ -302,6 +344,9 @@ public class Game extends Canvas implements Runnable {
 
 	public static Texture getTexture() {
 		return tex;
+	}
+	public static void startTimer() {
+		timer.start();
 	}
 	
 	//main function
