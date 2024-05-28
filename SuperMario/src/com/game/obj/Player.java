@@ -4,8 +4,12 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.util.LinkedList;
+
+import javax.swing.Timer;
 
 import com.game.graph.Animation;
 import com.game.graph.Texture;
@@ -32,6 +36,8 @@ public class Player extends GameObj{
 	private boolean jumped = false;
 	private int health = 2;
 	private boolean forward = false;
+	private int stopTime;
+	
 	
 	public Player(float x, float y, int scale, Handler handler)
 	{
@@ -50,6 +56,7 @@ public class Player extends GameObj{
 		currSprite = spriteS;
 		currAnimation = playerWalkS;
 	}
+	
 
 	@Override
 	public void tick() 
@@ -144,6 +151,35 @@ public class Player extends GameObj{
 					goomba.die();
 					Game.play("kick");
 				} 
+		}
+		for (int i=0;i<handler.getKoopa().size();i++) {
+			Koopa koopa = handler.getKoopa().get(i);
+				if (getBoundsRight().intersects(koopa.getBoundsLeft())){
+					//go back to origin
+					set_x(144);set_y(400);
+					Game.play("mario_die");
+					lives-=1;
+				}
+				else if (getBoundsLeft().intersects(koopa.getBoundsRight())){
+					//go back to origin
+					set_x(144);set_y(400);
+					Game.play("mario_die");
+					lives-=1;
+				}
+				else if (getBoundsTop().intersects(koopa.getBounds())) {
+					//go back to origin
+					set_x(144);set_y(400);
+					Game.play("mario_die");
+					lives-=1;
+				}
+				else if (getBounds().intersects(koopa.getBoundsTop()) && koopa.get_state()) {
+					koopa.tranfer_state();
+					stopTime=Game.get_GameTime();
+				} 
+				else if (getBounds().intersects(koopa.getBoundsTop()) && !koopa.get_state() && stopTime-Game.get_GameTime()>=1) {
+					koopa.die();
+					Game.play("kick");
+				}
 		}
 		for (int i=0;i<handler.getCoin().size();i++) {
 			Coin coin = handler.getCoin().get(i);
