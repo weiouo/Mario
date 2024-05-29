@@ -19,6 +19,8 @@ public class KeyInput extends KeyAdapter{
 	@Override
 	public void keyPressed(KeyEvent e) {
 		int key = e.getKeyCode();
+		//Debug
+		System.out.println(Game.getGameOver());
 		if (key == KeyEvent.VK_ENTER) {
 			Game.setPlaying(true);
 			Game.play("bgm");
@@ -48,10 +50,16 @@ public class KeyInput extends KeyAdapter{
 			keyDown[2] = true;
 		}
 		
+		
 		if (key == KeyEvent.VK_SPACE && Game.getGameOver()) {
-			Game.startTimer();
+			//Debug -> no output -> not reacting
+			System.out.println("Space key pressed and game is over. Restarting game...");
 			Game.reset();
+			Game.setPlaying(true);
+			Game.startTimer();
+			//Game.reset();
 		}
+		
 	}
 	
 	@Override

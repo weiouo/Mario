@@ -55,8 +55,11 @@ public class Player extends GameObj{
 	public void tick() 
 	{
 		if (lives == 0) {
+			//Debug
+			System.out.println("Run out of lives!");
 			Game.setGameOver(true);
-		}
+			System.out.println(Game.getGameOver());
+		} 
 		if (get_y()>600) {
 			set_x(144);set_y(400);
 			Game.play("mario_die");

@@ -238,10 +238,19 @@ public class Game extends Canvas implements Runnable {
 	}
 	private void tick()
 	{
+		/*
 		if(playing) {
 			handler.tick();
 			cam.tick(handler.getPlayer());
 		}
+		*/
+		 if (playing && !gameOver) {
+		        handler.tick();
+		        cam.tick(handler.getPlayer());
+		    } else if (gameOver) {
+		        // 遊戲結束的邏輯
+		        handler.reset();
+		    }
 	}
 	private void render()
 	{
@@ -285,7 +294,11 @@ public class Game extends Canvas implements Runnable {
 			else ui.drawString("\\>o</   GAME  OVER   \\>o</", 185, 300);
 			ui.setFont(new Font("Century Gothic",Font.PLAIN,25));
 			ui.drawString(">>  space for restart", 185, 380);
-			handler.reset();
+			
+			//Debug
+			System.out.println(getGameOver());
+			//Debug
+			//handler.reset();
 		}
 		
 		Graphics2D g2d = (Graphics2D) gf;
@@ -332,6 +345,7 @@ public class Game extends Canvas implements Runnable {
 		gameOver = setGameOver;
 	}
 	public static boolean getGameOver() {
+		//System.out.println("Game over status: " + Game.getGameOver());
 		return gameOver;
 	}
 

@@ -125,6 +125,7 @@ public class Handler {
 	public void reset() {
 		coin.clear();
 		goomba.clear();
+	
 	}
 	
 }

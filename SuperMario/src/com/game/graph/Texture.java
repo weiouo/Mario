@@ -16,7 +16,7 @@ public class Texture {
 	private BufferedImageLoader loader;
 	private BufferedImage player_sheet, enemy_sheet, npc_sheet, block_sheet, tile_sheet, game_over_sheet, intro_sheet;
 	public BufferedImage[] mario_l, mario_s, tile_1, tile_2, tile_3, tile_4, pipe_1, goomba, debris_1;
-	public BufferedImage coin;
+	public BufferedImage coin, flag,flag_pole;
 	
 	public Texture() {
 		mario_l = new BufferedImage[MARIO_L_COUNT];
@@ -28,6 +28,7 @@ public class Texture {
 		pipe_1 = new BufferedImage[4];
 		goomba = new BufferedImage[3];
 		debris_1 = new BufferedImage[4];
+		
 		
 		loader = new BufferedImageLoader();
 		
@@ -139,6 +140,8 @@ public class Texture {
 		int width = 16;
 		int height = 16;
 		coin = npc_sheet.getSubimage(x_off, y_off, width, height);
+		//flag = npc_sheet.getSubimage(x_off, y_off, width, height);//6*6 pixels
+		//flag_pole = npc_sheet.getSubimage(x_off, y_off, width, height);
 	}
 	
 	private void getGoombaTextures() {
