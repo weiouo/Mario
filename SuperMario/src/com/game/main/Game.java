@@ -20,6 +20,7 @@ import com.game.main.util.LevelHandler;
 import com.game.obj.Block;
 import com.game.obj.Coin;
 import com.game.obj.Goomba;
+import com.game.obj.Koopa;
 import com.game.obj.Pipe;
 import com.game.obj.Player;
 import com.game.obj.util.Handler;
@@ -96,11 +97,6 @@ public class Game extends Canvas implements Runnable {
 		keyInput = new KeyInput(handler);
 		timer = new Timer(1000, listener);
 		this.addKeyListener(keyInput);
-		//mouseInput = new MouseInput(launcher);
-		
-		//this.addKeyListener(new KeyInput(handler));
-		//this.addMouseListener(mouseInput);
-		//this.addMouseMotionListener(mouseInput);
 		levelHandler = new LevelHandler(handler);
 		levelHandler.start();
 		
@@ -151,6 +147,7 @@ public class Game extends Canvas implements Runnable {
 	}
 	
 	private static void set() {
+		handler.addKoopa(new Koopa(32*70,600,1,handler));
 		handler.addGoomba(new Goomba(32*55,600,1,handler,1));
 		handler.addGoomba(new Goomba(32*50,600,1,handler,1));
 		for (int i=0;i<10;i++) {
@@ -361,6 +358,10 @@ public class Game extends Canvas implements Runnable {
 	}
 	public static void startTimer() {
 		timer.start();
+	}
+	
+	public static int get_GameTime() {
+		return gameTime;
 	}
 	
 	//main function
