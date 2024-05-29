@@ -147,12 +147,8 @@ public class Game extends Canvas implements Runnable {
 	}
 	
 	private static void set() {
-		handler.addKoopa(new Koopa(32*70,600,1,handler));
-		handler.addGoomba(new Goomba(32*55,600,1,handler,1));
-		handler.addGoomba(new Goomba(32*50,600,1,handler,1));
-		for (int i=0;i<10;i++) {
-			handler.addCoin(new Coin(32*(15+i),585,30,30,1,handler));
-		}
+		setEnemy();
+		setCoin();
 	}
 	
 	public static void reset() {
@@ -235,12 +231,6 @@ public class Game extends Canvas implements Runnable {
 	}
 	private void tick()
 	{
-		/*
-		if(playing) {
-			handler.tick();
-			cam.tick(handler.getPlayer());
-		}
-		*/
 		 if (playing && !gameOver) {
 		        handler.tick();
 		        cam.tick(handler.getPlayer());
@@ -264,8 +254,6 @@ public class Game extends Canvas implements Runnable {
 		gf.fillRect(0, 0, WIN_W, WIN_H);
 		
 		if (!gameOver) {
-			/*System.out.println(handler.getPlayer().get_x());
-			System.out.println(handler.getPlayer().get_y());*/
 			Graphics ui = buf.getDrawGraphics();
 			ui.setColor(Color.WHITE);
 			ui.setFont(new Font("Century Gothic",Font.PLAIN,20));
@@ -368,6 +356,45 @@ public class Game extends Canvas implements Runnable {
 	public static void main(String[] args)
 	{
 		new Game();
+	}
+	
+	//setting
+	private static void setCoin() {
+		handler.addCoin(new Coin(1464,465,30,30,1,handler));
+		handler.addCoin(new Coin(1936,417,30,30,1,handler));
+		handler.addCoin(new Coin(3368,585,30,30,1,handler));
+		handler.addCoin(new Coin(3432,515,30,30,1,handler));
+		handler.addCoin(new Coin(3496,585,30,30,1,handler));
+		handler.addCoin(new Coin(5328,369,30,30,1,handler));
+		for (int i=0;i<5;i++) {
+			handler.addCoin(new Coin(1560+70*i,585,30,30,1,handler));
+		}
+		for (int i=0;i<6;i++) {
+			handler.addCoin(new Coin(2430+70*i,585,30,30,1,handler));
+		}
+		for (int i=0;i<4;i++) {
+			handler.addCoin(new Coin(3992+70*i,177,30,30,1,handler));
+			handler.addCoin(new Coin(7395,585-65*i,30,30,1,handler));
+			handler.addCoin(new Coin(7450,585-65*i,30,30,1,handler));
+		}
+		for (int i=0;i<2;i++) {
+			handler.addCoin(new Coin(4488+70*i,177,30,30,1,handler));
+			handler.addCoin(new Coin(5915+70*i,177,30,30,1,handler));
+			handler.addCoin(new Coin(6730,585-60*(i+1),30,30,1,handler));
+			handler.addCoin(new Coin(6770,585-60*(i+1),30,30,1,handler));
+		}
+		for (int i=0;i<3;i++) {
+			handler.addCoin(new Coin(8120+70*i,369,30,30,1,handler));
+			handler.addCoin(new Coin(8432+70*i,585,30,30,1,handler));
+		}
+	}
+	private static void setEnemy() {
+		handler.addKoopa(new Koopa(32*70,600,0,3000,1,handler));
+		handler.addKoopa(new Koopa(6308,600,4376,7000,1,handler));
+		handler.addGoomba(new Goomba(32*55,600,0,3000,1,handler,1));
+		handler.addGoomba(new Goomba(32*50,600,0,3000,1,handler,1));
+		handler.addGoomba(new Goomba(32*30,600,32,3000,1,handler,1));
+		handler.addGoomba(new Goomba(4000,192,3960,4250,1,handler,1));
 	}
 
 	

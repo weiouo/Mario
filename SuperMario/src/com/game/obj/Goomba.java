@@ -14,26 +14,36 @@ public class Goomba extends GameObj{
 	
 	private static final float GOOMBA_W = 32;
 	private static final float GOOMBA_H = 32;
+	
+	private static float rangeL;
+	private static float rangeR;
 
 	private Texture tex = Game.getTexture();
 	private int index;
 	private BufferedImage[] sprite;
 	
-	private boolean hasCollide = false;
-	
-	public Goomba (float x, float y, int scale,Handler handler, int index) {
+	public Goomba (float x, float y, float rangeL, float rangeR,int scale,Handler handler, int index) {
 		super(x, y, ObjID.Enemy, GOOMBA_W, GOOMBA_H, scale,handler);
 		this.index = index;
+		this.rangeL = rangeL;
+		this.rangeR = rangeR;
 		sprite = tex.getGoomba();
+		set_vx(2);
 	}
 
 	@Override
 	public void tick() {
-		if (!hasCollide)set_vx(2);
+		if (get_y()>700) this.die();
 		set_x(get_vx()+get_x());
 		set_y(get_vy()+get_y());
 		applyGravity();
 		collision();
+		if (get_x()==rangeL) {
+			set_vx(2);
+		}
+		if (get_x()==rangeR) {
+			set_vx(-2);
+		}
 	}
 	
 	public void die() {
@@ -53,13 +63,10 @@ public class Goomba extends GameObj{
 				if (getBounds().intersects(temp.getBounds())) {
 					set_vy(0);
 				}
-				
 				if (getBoundsRight().intersects(temp.getBounds())) {
-					hasCollide=true;
 					set_vx(-2);
 				}
 				if (getBoundsLeft().intersects(temp.getBounds())) {
-					hasCollide=true;
 					set_vx(2);
 				}
 			}

@@ -16,14 +16,20 @@ public class Koopa extends GameObj {
 	private static final float KOOPA_W = 32;
 	private static final float KOOPA_H = 32;
 	
+	private static float rangeL;
+	private static float rangeR;
+	
 	private boolean hasCollide = false;
 	private boolean state = true;//walk
 	private Timer timer;
 	private int v_origin;
 	
-	public Koopa(float x, float y, int scale, Handler handler) {
+	public Koopa(float x, float y, float rangeL, float rangeR, int scale, Handler handler) {
 		super(x, y, ObjID.Enemy, KOOPA_W, KOOPA_H, scale,handler);
+		this.rangeL = rangeL;
+		this.rangeR = rangeR;
 		timer = new Timer(10000, listener);
+		set_vx(2);
 	}
 	
 	private ActionListener listener = new ActionListener() {
@@ -37,6 +43,7 @@ public class Koopa extends GameObj {
 	
 	public void tranfer_state() {
 		state=false;
+		set_vx(0);
 		timer.start();
 	}
 	
@@ -46,12 +53,13 @@ public class Koopa extends GameObj {
 
 	@Override
 	public void tick() {
-		if (!hasCollide && state)set_vx(2);
-		else if (!state) set_vx(0);
+		if (get_y()>600) this.die();
 		set_x(get_vx()+get_x());
 		set_y(get_vy()+get_y());
 		applyGravity();
 		collision();
+		if (get_x()==rangeL) set_vx(2);
+		else if (get_x()==rangeR)set_vx(-2);
 	}
 	
 	public void die() {
@@ -75,12 +83,10 @@ public class Koopa extends GameObj {
 				}
 				
 				if (getBoundsRight().intersects(temp.getBounds())&&state) {
-					hasCollide=true;
 					set_vx(-2);
 					v_origin=-2;
 				}
 				if (getBoundsLeft().intersects(temp.getBounds())&&state) {
-					hasCollide=true;
 					set_vx(2);
 					v_origin=2;
 				}

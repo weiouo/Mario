@@ -38,7 +38,6 @@ public class Player extends GameObj{
 	private boolean forward = false;
 	private int stopTime;
 	
-	
 	public Player(float x, float y, int scale, Handler handler)
 	{
 		super(x, y, ObjID.Player, MARIO_W, MARIO_H, scale,handler);
