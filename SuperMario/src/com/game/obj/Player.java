@@ -169,13 +169,13 @@ public class Player extends GameObj{
 		}
 		for (int i=0;i<handler.getKoopa().size();i++) {
 			Koopa koopa = handler.getKoopa().get(i);
-				if (getBoundsRight().intersects(koopa.getBoundsLeft())){
+				if (getBoundsRight().intersects(koopa.getBoundsLeft()) && get_vx()>=0){
 					//go back to origin
 					set_x(144);set_y(400);
 					Game.play("mario_die");
 					lives-=1;
 				}
-				else if (getBoundsLeft().intersects(koopa.getBoundsRight())){
+				else if (getBoundsLeft().intersects(koopa.getBoundsRight()) && get_vx()<=0){
 					//go back to origin
 					set_x(144);set_y(400);
 					Game.play("mario_die");
@@ -191,7 +191,8 @@ public class Player extends GameObj{
 					koopa.tranfer_state();
 					stopTime=Game.get_GameTime();
 				} 
-				else if (getBounds().intersects(koopa.getBoundsTop()) && !koopa.get_state() && stopTime-Game.get_GameTime()>=1) {
+				else if (getBounds().intersects(koopa.getBoundsTop()) && !koopa.get_state() 
+						&& get_vy()>1 &&stopTime-Game.get_GameTime()>=1) {
 					koopa.die();
 					Game.play("kick");
 				}
