@@ -108,8 +108,15 @@ public class Player extends GameObj{
 				set_y(temp.get_y() + temp.get_height());
 				set_vy(0);
 				((Block)temp).hit();
-				removeBlocks.add((Block)temp);			}
-			else
+				removeBlocks.add((Block)temp);			
+			}
+			/*
+			else if(temp.get_ID() == ObjID.FlagPole && this.get_x() > temp.get_x())
+			{
+				Game.setGameOver(true);
+			}
+			*/
+			else if(temp.get_ID() != ObjID.FlagPole)
 			{
 				
 				if (getBounds().intersects(temp.getBounds())) {
@@ -128,6 +135,12 @@ public class Player extends GameObj{
 					set_x( temp.get_x()+ temp.get_width());
 				}
 			}
+			else if(temp.get_ID() == ObjID.FlagPole && get_x() > temp.get_x() )
+			{
+				Game.setWinLevel(getCoins());
+				Game.setGameOver(true);
+			}
+			
 		}
 		for (int i=0;i<handler.getGoomba().size();i++) {
 			Goomba goomba = handler.getGoomba().get(i);

@@ -14,9 +14,9 @@ public class Texture {
 	private final int TILE_2_COUNT = 33;
 	
 	private BufferedImageLoader loader;
-	private BufferedImage player_sheet, enemy_sheet, npc_sheet, block_sheet, tile_sheet, game_over_sheet, intro_sheet;
+	private BufferedImage player_sheet, enemy_sheet, npc_sheet, block_sheet, tile_sheet, game_over_sheet, intro_sheet, pole_sheet;
 	public BufferedImage[] mario_l, mario_s, tile_1, tile_2, tile_3, tile_4, pipe_1, goomba, debris_1;
-	public BufferedImage coin, flag,flag_pole;
+	public BufferedImage coin, flag,flagpole;
 	
 	public Texture() {
 		mario_l = new BufferedImage[MARIO_L_COUNT];
@@ -40,7 +40,7 @@ public class Texture {
 			tile_sheet = loader.loadImage(PARENT_FOLDER + "/NES - Super Mario Bros - Tileset.png");
 			game_over_sheet = loader.loadImage(PARENT_FOLDER + "/NES - Super Mario Bros - Time Up Game Over Screens.png");
 			intro_sheet = loader.loadImage(PARENT_FOLDER + "/NES - Super Mario Bros - Title Screen.png");
-			
+			pole_sheet = loader.loadImage(PARENT_FOLDER + "/flag-pole.png");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -50,6 +50,8 @@ public class Texture {
 		getCoinTextures();
 		getGoombaTextures();
 		getDebrisTextures();
+		getFlagTextures();
+		getFlagPoleTextures();
 	}
 	
 	public BufferedImage[] getDebris1()
@@ -143,7 +145,22 @@ public class Texture {
 		//flag = npc_sheet.getSubimage(x_off, y_off, width, height);//6*6 pixels
 		//flag_pole = npc_sheet.getSubimage(x_off, y_off, width, height);
 	}
-	
+	private void getFlagTextures()
+	{
+		int x_off = 128;
+		int y_off = 0;
+		int width = 16;
+		int height = 16;
+		flag = npc_sheet.getSubimage(x_off, y_off, width, height);
+	}
+	private void getFlagPoleTextures()
+	{
+		int x_off = 0;
+		int y_off = 0;
+		int width = 1;
+		int height = 1;
+		flagpole = pole_sheet.getSubimage(x_off, y_off, width, height);
+	}
 	private void getGoombaTextures() {
 		int x_off = 0;
 		int y_off = 16;

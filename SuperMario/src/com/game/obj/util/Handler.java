@@ -5,6 +5,8 @@ import java.util.List;
 
 import com.game.obj.Block;
 import com.game.obj.Coin;
+import com.game.obj.FlagPole;
+//import com.game.obj.Flag;
 import com.game.obj.GameObj;
 import com.game.obj.Goomba;
 import com.game.obj.Koopa;
@@ -16,6 +18,7 @@ public class Handler {
 	private List<Koopa> koopa;
 	private List<Coin> coin;
 	private Player player;
+	
 	
 	public Handler()
 	{

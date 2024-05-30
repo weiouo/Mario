@@ -4,6 +4,8 @@ import java.awt.image.BufferedImage;
 
 import com.game.graph.BufferedImageLoader;
 import com.game.obj.Block;
+import com.game.obj.Flag;
+import com.game.obj.FlagPole;
 import com.game.obj.Goomba;
 import com.game.obj.Pipe;
 import com.game.obj.Player;
@@ -64,6 +66,9 @@ public class LevelHandler {
 					handler.addObj(new Pipe(i*16, j*16, 32, 16, 3, true, handler, 0));
 				} else if (blue == 0 && green == 0 && red == 30) {
 					handler.addObj(new Pipe(i*16, j*16, 32, 16, 3, true, handler, 2));
+				} else if(red == 237 && green == 28 && blue == 36) {
+					handler.addObj(new Flag(i*16, j*16, 16, 16, 3, handler));
+					handler.addObj(new FlagPole(i*16, j*16, 2, 180, 3, handler));
 				}
 			}
 		}

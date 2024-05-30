@@ -50,8 +50,10 @@ public class Game extends Canvas implements Runnable {
 	private static boolean playing;
 	private static boolean gameOver;
 	private static int gameTime = 60*5;
+	private static int winlevel = 0;
 	
 	//Game Components
+	
 	private Thread thread;
 	private static Handler handler;
 	private Camera cam;
@@ -276,7 +278,18 @@ public class Game extends Canvas implements Runnable {
 			ui.setColor(Color.LIGHT_GRAY);
 			ui.setFont(new Font("Century Gothic",Font.BOLD,40));
 			if (gameTime <=0)ui.drawString("\\>o</    TIME  OUT    \\>o</", 185, 300);
-			else ui.drawString("\\>o</   GAME  OVER   \\>o</", 185, 300);
+			else if(winlevel > 0) 
+			{
+				ui.drawString(" ^^  !!  WIN  !!  ^^ ", 185, 220);
+				
+				ui.drawString("LEVEL : ", 185, 300);
+				for(int i = 0 ; i < winlevel ; i++)
+				{
+					ui.drawString("* ",300+(i+1)*40, 300);
+				}
+				
+			}
+			else ui.drawString("\\>o</  LOSE ~ GAME  OVER   \\>o</", 185, 300);
 			ui.setFont(new Font("Century Gothic",Font.PLAIN,25));
 			ui.drawString(">>  space for restart", 185, 380);
 			
@@ -333,7 +346,12 @@ public class Game extends Canvas implements Runnable {
 		//System.out.println("Game over status: " + Game.getGameOver());
 		return gameOver;
 	}
-
+	public static void setWinLevel(int coin_cnt) {
+		//System.out.println("Game over status: " + Game.getGameOver());
+		if(coin_cnt <= 10) winlevel = 1;
+		else if(coin_cnt > 10 && coin_cnt <= 20)winlevel = 2;
+		else if(coin_cnt > 20)winlevel = 3;
+	}
 	public static int getScreenHeight() {
 		return SCREEN_HEIGHT;
 	}
