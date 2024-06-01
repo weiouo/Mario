@@ -69,6 +69,7 @@ public class Game extends Canvas implements Runnable {
 	private static Sound name_entry;
 	private static Sound bgm;
 	private static Sound gameover;
+	private static Sound win;
 	private static Sound hurry;
 	private static Sound mario_die;
 	private static Sound jump;
@@ -76,6 +77,7 @@ public class Game extends Canvas implements Runnable {
 	private static Sound coin;
 	private static Sound break_block;
 	private static boolean gameoverPlayed;
+	private static boolean winPlayed;
 	private static boolean hurryPlayed;
 	private static boolean bgmOverTime;
 	
@@ -107,6 +109,7 @@ public class Game extends Canvas implements Runnable {
 		name_entry = new Sound("/sound/Super Mario Bros. Deluxe Music _ 13 - Name Entry.wav");
 		bgm = new Sound("/sound/01. Ground Theme.wav");
 		gameover = new Sound("/sound/smb_gameover.wav");
+		win = new Sound("/sound/18. Saved the Princess.wav");
 		hurry = new Sound("/sound/12. Ground Theme (Hurry!).wav");
 		mario_die = new Sound("/sound/smb_mariodie.wav");
 		jump = new Sound("/sound/smb_jump-small.wav");
@@ -133,6 +136,9 @@ public class Game extends Canvas implements Runnable {
 		else if (s=="gameover") {
 			gameover.play();
 		}
+		else if (s=="win") {
+			win.play();
+		}
 		else if (s=="kick") {
 			kick.play();
 		}
@@ -158,13 +164,16 @@ public class Game extends Canvas implements Runnable {
 		handler.getPlayer().set_x(144);
 		handler.getPlayer().set_y(576);
 		gameover.stop();
+		win.stop();
 		bgm.play();
 		handler.getPlayer().resetLives();
 		handler.getPlayer().resetCoins();
 		setGameOver(false);
 		gameoverPlayed = false;
+		winPlayed = false;
 		hurryPlayed = false;
 		bgmOverTime = false;
+		winlevel =0;
 		set();
 	}
 	
@@ -270,7 +279,7 @@ public class Game extends Canvas implements Runnable {
 			bgm.stop();
 			hurry.stop();
 			mario_die.stop();
-			if (!gameoverPlayed) {
+			if (!gameoverPlayed ) {
 				gameover.play();
 				gameoverPlayed = true;
 			}
@@ -280,6 +289,14 @@ public class Game extends Canvas implements Runnable {
 			if (gameTime <=0)ui.drawString("\\>o</    TIME  OUT    \\>o</", 185, 300);
 			else if(winlevel > 0) 
 			{
+				timer.stop();
+				bgm.stop();
+				hurry.stop();
+				mario_die.stop();
+				if (!winPlayed) {
+					win.play();
+					winPlayed = true;
+				}
 				ui.drawString(" ^^  !!  WIN  !!  ^^ ", 185, 220);
 				
 				ui.drawString("LEVEL : ", 185, 300);
@@ -343,11 +360,9 @@ public class Game extends Canvas implements Runnable {
 		gameOver = setGameOver;
 	}
 	public static boolean getGameOver() {
-		//System.out.println("Game over status: " + Game.getGameOver());
 		return gameOver;
 	}
 	public static void setWinLevel(int coin_cnt) {
-		//System.out.println("Game over status: " + Game.getGameOver());
 		if(coin_cnt <= 10) winlevel = 1;
 		else if(coin_cnt > 10 && coin_cnt <= 20)winlevel = 2;
 		else if(coin_cnt > 20)winlevel = 3;

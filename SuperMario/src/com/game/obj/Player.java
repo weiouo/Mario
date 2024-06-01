@@ -110,12 +110,6 @@ public class Player extends GameObj{
 				((Block)temp).hit();
 				removeBlocks.add((Block)temp);			
 			}
-			/*
-			else if(temp.get_ID() == ObjID.FlagPole && this.get_x() > temp.get_x())
-			{
-				Game.setGameOver(true);
-			}
-			*/
 			else if(temp.get_ID() != ObjID.FlagPole)
 			{
 				
