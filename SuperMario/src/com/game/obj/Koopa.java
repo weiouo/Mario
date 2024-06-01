@@ -8,6 +8,8 @@ import java.awt.event.ActionListener;
 
 import javax.swing.Timer;
 
+import com.game.graph.Texture;
+import com.game.main.Game;
 import com.game.obj.util.Handler;
 import com.game.obj.util.ObjID;
 
@@ -18,16 +20,22 @@ public class Koopa extends GameObj {
 	
 	private static float rangeL;
 	private static float rangeR;
+
+	private Texture tex = Game.getTexture();
+	private int index;
+	private BufferedImage[] sprite;
 	
 	private boolean hasCollide = false;
 	private boolean state = true;//walk
 	private Timer timer;
 	private int v_origin;
 	
-	public Koopa(float x, float y, float rangeL, float rangeR, int scale, Handler handler) {
+	public Koopa(float x, float y, float rangeL, float rangeR, int scale, Handler handler, int index) {
 		super(x, y, ObjID.Enemy, KOOPA_W, KOOPA_H, scale,handler);
+		this.index = index;
 		this.rangeL = rangeL;
 		this.rangeR = rangeR;
+		sprite = tex.getKoopa();
 		timer = new Timer(10000, listener);
 		set_vx(2);
 	}
@@ -68,9 +76,7 @@ public class Koopa extends GameObj {
 
 	@Override
 	public void render(Graphics gf) {
-		gf.setColor(Color.red);
-		gf.fillRect((int) get_x(), (int) get_y(), (int) get_width(), (int)get_height());
-		
+		gf.drawImage(sprite[index], (int) get_x(), (int) get_y(), (int) get_width(), (int)get_height(), null);	
 	}
 	
 	public void collision() {
