@@ -15,7 +15,7 @@ public class Texture {
 	
 	private BufferedImageLoader loader;
 	private BufferedImage player_sheet, enemy_sheet, npc_sheet, block_sheet, tile_sheet, game_over_sheet, intro_sheet, pole_sheet;
-	public BufferedImage[] mario_l, mario_s, tile_1, tile_2, tile_3, tile_4, pipe_1, goomba, debris_1;
+	public BufferedImage[] mario_l, mario_s, tile_1, tile_2, tile_3, tile_4, pipe_1, goomba, debris_1, koopa, mountain, cloud;
 	public BufferedImage coin, flag,flagpole;
 	
 	public Texture() {
@@ -28,6 +28,9 @@ public class Texture {
 		pipe_1 = new BufferedImage[4];
 		goomba = new BufferedImage[3];
 		debris_1 = new BufferedImage[4];
+		koopa = new BufferedImage[6];
+		mountain = new BufferedImage[9];
+		cloud = new BufferedImage[3];
 		
 		
 		loader = new BufferedImageLoader();
@@ -52,6 +55,9 @@ public class Texture {
 		getDebrisTextures();
 		getFlagTextures();
 		getFlagPoleTextures();
+		getKoopaTextures();
+		getMountainTexture();
+		getCloudTexture();
 	}
 	
 	public BufferedImage[] getDebris1()
@@ -170,6 +176,41 @@ public class Texture {
 		goomba[1] = enemy_sheet.getSubimage(x_off + width, y_off, width, height);
 		goomba[2] = enemy_sheet.getSubimage(x_off + width, y_off, width, height);
 	}
+	private void getKoopaTextures() {
+		int x_off = 96;
+		int y_off = 8;
+		int width = 16;
+		int height = 24;
+		for (int i = 0; i < 6; i++) {
+			koopa[i] = enemy_sheet.getSubimage(x_off + i*(width+1), y_off, width, height);
+		}		
+	}
+	private void getMountainTexture() {
+		int x_off = 128;
+		int y_off = 128;
+		int width = 16;
+		int height = 16;
+		mountain[0] = tile_sheet.getSubimage(x_off, y_off, width, height);
+		mountain[1] = tile_sheet.getSubimage(x_off + width, y_off, width, height);
+		mountain[2] = tile_sheet.getSubimage(x_off + 2*width, y_off, width, height);
+		mountain[3] = tile_sheet.getSubimage(x_off, y_off + height, width, height);
+		mountain[4] = tile_sheet.getSubimage(x_off + width, y_off + height, width, height);
+		mountain[5] = tile_sheet.getSubimage(x_off + 2*width, y_off + height, width, height);
+		
+		mountain[6] = tile_sheet.getSubimage(x_off + 3*width, y_off + height, width, height);
+		mountain[7] = tile_sheet.getSubimage(x_off + 3*width + width, y_off + height, width, height);
+		mountain[8] = tile_sheet.getSubimage(x_off + 3*width + 2*width, y_off + height, width, height);
+		
+	}
+	private void getCloudTexture() {
+		int x_off = 0;
+		int y_off = 320;
+		int width = 16;
+		int height = 32;
+		cloud[0] = tile_sheet.getSubimage(x_off, y_off, width, height);
+		cloud[1] = tile_sheet.getSubimage(x_off + width, y_off, width, height);
+		cloud[2] = tile_sheet.getSubimage(x_off + 2*width, y_off, width, height);
+	}
 	
 	public BufferedImage[] getMarioL() {
 		return mario_l;
@@ -202,6 +243,17 @@ public class Texture {
 	public BufferedImage[] getGoomba() {
 		return goomba;
 	}
+
+	public BufferedImage[] getKoopa() {
+		return koopa;
+	}
 	
+	public BufferedImage[] getMountain() {
+		return mountain;
+	}
 	
+	public BufferedImage[] getCloud() {
+		return cloud;
+	}
+		
 }
