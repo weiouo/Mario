@@ -7,5 +7,7 @@ public enum ObjID {
 	Pipe,
 	Flag,
 	FlagPole,
-	Coin;
+	Coin,
+	Mountain,
+	Cloud;
 }
