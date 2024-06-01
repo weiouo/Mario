@@ -422,8 +422,8 @@ public class Game extends Canvas implements Runnable {
 		}
 	}
 	private static void setEnemy() {
-		handler.addKoopa(new Koopa(32*70,600,0,3000,1,handler));
-		handler.addKoopa(new Koopa(6308,600,4376,7000,1,handler));
+		handler.addKoopa(new Koopa(32*70,600,0,3000,1,handler,1));
+		handler.addKoopa(new Koopa(6308,600,4376,7000,1,handler,1));
 		handler.addGoomba(new Goomba(32*55,600,0,3000,1,handler,1));
 		handler.addGoomba(new Goomba(32*50,600,0,3000,1,handler,1));
 		handler.addGoomba(new Goomba(32*30,600,32,3000,1,handler,1));
