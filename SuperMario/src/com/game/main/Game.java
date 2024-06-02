@@ -261,7 +261,8 @@ public class Game extends Canvas implements Runnable {
 		
 		//draw bkground, bricks, pipes......
 		Graphics gf = buf.getDrawGraphics();
-		gf.setColor(Color.BLACK);
+		Color lightBlue = new Color(107, 136, 254);
+		gf.setColor(lightBlue);
 		gf.fillRect(0, 0, WIN_W, WIN_H);
 		
 		if (!gameOver) {
