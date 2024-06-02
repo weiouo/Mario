@@ -9,6 +9,7 @@ import java.awt.image.BufferedImage;
 
 import javax.swing.Timer;
 
+import com.game.graph.Animation;
 import com.game.graph.Texture;
 import com.game.main.Game;
 import com.game.obj.util.Handler;
@@ -25,6 +26,8 @@ public class Koopa extends GameObj {
 	private Texture tex = Game.getTexture();
 	private int index;
 	private BufferedImage[] sprite;
+	private Animation koopaWalk;
+	private BufferedImage squashedImage;
 	
 	private boolean hasCollide = false;
 	private boolean state = true;//walk
@@ -37,6 +40,8 @@ public class Koopa extends GameObj {
 		this.rangeL = rangeL;
 		this.rangeR = rangeR;
 		sprite = tex.getKoopa();
+		koopaWalk = new Animation(5, sprite[0], sprite[1]);
+		squashedImage = sprite[4];
 		timer = new Timer(10000, listener);
 		set_vx(2);
 	}
@@ -67,6 +72,7 @@ public class Koopa extends GameObj {
 		set_y(get_vy()+get_y());
 		applyGravity();
 		collision();
+		koopaWalk.runAnimation();
 		if (get_x()==rangeL) set_vx(2);
 		else if (get_x()==rangeR)set_vx(-2);
 	}
@@ -77,7 +83,13 @@ public class Koopa extends GameObj {
 
 	@Override
 	public void render(Graphics gf) {
-		gf.drawImage(sprite[index], (int) get_x(), (int) get_y(), (int) get_width(), (int)get_height(), null);	
+		if (get_vx() > 0) {
+			koopaWalk.drawAnimation(gf, (int) get_x(), (int) get_y(), (int) -get_width(), (int) get_height());
+		} else if (get_vx() < 0) {
+			koopaWalk.drawAnimation(gf, (int) (get_x() + get_width()), (int) get_y(), (int) get_width(), (int) get_height());
+		} else {
+			gf.drawImage(squashedImage, (int) get_x(), (int) get_y(), (int) get_width(), (int) get_height(), null);
+		}
 	}
 	
 	public void collision() {
