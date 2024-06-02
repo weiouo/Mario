@@ -133,12 +133,13 @@ public class Game extends Canvas implements Runnable {
 		else if (s=="mario_die") {
 			mario_die.play();
 		}
-		else if (s=="gameover") {
-			gameover.play();
-		}
 		else if (s=="win") {
 			win.play();
 		}
+		else if (s=="gameover") {
+			gameover.play();
+		}
+		
 		else if (s=="kick") {
 			kick.play();
 		}
@@ -280,7 +281,7 @@ public class Game extends Canvas implements Runnable {
 			bgm.stop();
 			hurry.stop();
 			mario_die.stop();
-			if (!gameoverPlayed ) {
+			if (!gameoverPlayed && winlevel == 0) {
 				gameover.play();
 				gameoverPlayed = true;
 			}
