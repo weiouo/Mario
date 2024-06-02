@@ -5,6 +5,7 @@ import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 
+import com.game.graph.Animation;
 import com.game.graph.Texture;
 import com.game.main.Game;
 import com.game.obj.util.Handler;
@@ -21,6 +22,8 @@ public class Goomba extends GameObj{
 	private Texture tex = Game.getTexture();
 	private int index;
 	private BufferedImage[] sprite;
+	private Animation goombaWalk;
+	private BufferedImage squashedImage;
 	
 	public Goomba (float x, float y, float rangeL, float rangeR,int scale,Handler handler, int index) {
 		super(x, y, ObjID.Enemy, GOOMBA_W, GOOMBA_H, scale,handler);
@@ -28,6 +31,9 @@ public class Goomba extends GameObj{
 		this.rangeL = rangeL;
 		this.rangeR = rangeR;
 		sprite = tex.getGoomba();
+		BufferedImage[] sprite = tex.getGoomba();
+		goombaWalk = new Animation(5, sprite[0], sprite[1]);
+		squashedImage = sprite[2];
 		set_vx(2);
 	}
 
@@ -38,6 +44,7 @@ public class Goomba extends GameObj{
 		set_y(get_vy()+get_y());
 		applyGravity();
 		collision();
+		goombaWalk.runAnimation();
 		if (get_x()==rangeL) {
 			set_vx(2);
 		}
@@ -52,7 +59,14 @@ public class Goomba extends GameObj{
 	
 	@Override
 	public void render(Graphics gf) {
-		gf.drawImage(sprite[index], (int) get_x(), (int) get_y(), (int) get_width(), (int)get_height(), null);
+		//gf.drawImage(sprite[index], (int) get_x(), (int) get_y(), (int) get_width(), (int)get_height(), null);
+		if (get_vx() > 0) {
+			goombaWalk.drawAnimation(gf, (int) get_x(), (int) get_y(), (int) -get_width(), (int) get_height());
+		} else if (get_vx() < 0) {
+			goombaWalk.drawAnimation(gf, (int) (get_x() + get_width()), (int) get_y(), (int) get_width(), (int) get_height());
+		} else {
+		   	gf.drawImage(squashedImage, (int) get_x(), (int) get_y(), (int) get_width(), (int) get_height(), null);
+		}
 	}
 	
 	public void collision() {
