@@ -60,9 +60,7 @@ public class Goomba extends GameObj{
 	@Override
 	public void render(Graphics gf) {
 		//gf.drawImage(sprite[index], (int) get_x(), (int) get_y(), (int) get_width(), (int)get_height(), null);
-		if (get_vx() > 0) {
-			goombaWalk.drawAnimation(gf, (int) get_x(), (int) get_y(), (int) -get_width(), (int) get_height());
-		} else if (get_vx() < 0) {
+		if (get_vx() != 0) {
 			goombaWalk.drawAnimation(gf, (int) get_x(), (int) get_y(), (int) get_width(), (int) get_height());
 		} else {
 		   	gf.drawImage(squashedImage, (int) get_x(), (int) get_y(), (int) get_width(), (int) get_height(), null);
