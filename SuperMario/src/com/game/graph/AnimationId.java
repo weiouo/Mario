@@ -1,5 +1,7 @@
 package com.game.graph;
 
 public enum AnimationId {
-	PlayerWalkL, PlayerWalkS
+	PlayerWalkL, PlayerWalkS,
+	GoombaWalk,
+	KoopaWalk;
 }
